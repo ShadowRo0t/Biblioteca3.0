@@ -1,0 +1,73 @@
+/* ===== Layout base ===== */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.main {
+  flex: 1 0 auto;
+  padding-bottom: 1rem; /* respiración sobre el footer */
+}
+
+/* ===== Footer (compacto y prolijo) ===== */
+.site-footer {
+  flex-shrink: 0;
+  background: #121212;                 /* negro suave */
+  color: #eee;
+  border-top: 1px solid rgba(255,255,255,.12);
+  box-shadow: 0 -4px 16px rgba(0,0,0,.2);
+  padding-top: .75rem;                 /* compacto */
+  padding-bottom: .75rem;              /* compacto */
+  font-size: .85rem;                   /* tipografía más pequeña */
+}
+
+/* Títulos/secciones del footer */
+.footer-title {
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  font-weight: 700;
+  font-size: .8rem;                    /* más compacto */
+  margin-bottom: .5rem;
+  opacity: .9;
+}
+
+/* Separador del footer */
+.footer-sep {
+  border-color: rgba(255,255,255,.12);
+  margin: .5rem 0 !important;          /* menos alto */
+}
+
+/* Enlaces del footer */
+.footer-link {
+  color: #fff;
+  text-decoration: none;
+  opacity: .85;
+  display: inline-block;
+  padding: .15rem 0;                   /* menos espacio vertical */
+}
+.footer-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+/* Lista con líneas finas tipo "useful links" */
+.footer-list li {
+  padding: .2rem 0;                    /* compacto */
+}
+.footer-list li + li {
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+
+/* Divisor vertical entre columnas en desktop */
+@media (min-width: 992px) {
+  .footer-grid .col-md-4:not(:last-child) {
+    border-right: 1px solid rgba(255,255,255,.08);
+  }
+  .footer-grid .col-md-4 {
+    padding-right: 1rem;               /* un poco menos que 1.25rem */
+  }
+}

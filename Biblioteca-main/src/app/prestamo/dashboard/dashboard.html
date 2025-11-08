@@ -1,0 +1,38 @@
+<div class="container mt-4">
+  <h2 class="mb-4 text-center"> Mis Reservas</h2>
+
+  <!-- Si no hay reservas -->
+  <div *ngIf="reservas.length === 0" class="alert alert-info text-center">
+    No tienes reservas activas.
+  </div>
+
+  <!-- Tabla de reservas -->
+  <table *ngIf="reservas.length > 0" class="table table-striped table-bordered">
+    <thead class="table-success">
+      <tr>
+        <th>#</th>
+        <th>Libro</th>
+        <th>Tipo</th>
+        <th>Desde</th>
+        <th>Hasta</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let reserva of reservas">
+        <td>{{ reserva.id }}</td>
+        <td>{{ reserva.libro?.titulo }}</td>
+        <td>{{ reserva.tipo }}</td>
+        <td>{{ reserva.desde }}</td>
+        <td>{{ reserva.hasta }}</td>
+        <td>
+          <button
+            class="btn btn-danger btn-sm"
+            (click)="cancelarReserva(reserva.id)">
+             Cancelar reservacion
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

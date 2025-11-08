@@ -1,0 +1,54 @@
+<h3>Añadir imagen</h3>
+<div style="margin-bottom:12px">
+  <a routerLink="/admin/imagenes" class="btn">Volver</a>
+</div>
+
+<form (ngSubmit)="crearImagen(f)" #f="ngForm" novalidate style="display:grid; gap:10px; max-width:520px">
+  <!-- TÍTULO: required + minlength -->
+  <div>
+    <label>Título</label>
+    <input name="titulo"
+           [(ngModel)]="titulo"
+           required
+           minlength="3"
+           maxlength="100"
+           #tituloCtrl="ngModel"
+           placeholder="Título">
+    <div *ngIf="tituloCtrl.invalid && tituloCtrl.touched" class="alert alert-danger">
+      <div *ngIf="tituloCtrl.errors?.['required']">El título es obligatorio.</div>
+      <div *ngIf="tituloCtrl.errors?.['minlength']">Mínimo 3 caracteres.</div>
+    </div>
+  </div>
+
+  <!-- USER ID: required + min -->
+  <div>
+    <label>User ID</label>
+    <input type="number"
+           name="userId"
+           [(ngModel)]="userId"
+           required
+           min="1"
+           #userCtrl="ngModel"
+           placeholder="User ID">
+    <div *ngIf="userCtrl.invalid && userCtrl.touched" class="alert alert-danger">
+      <div *ngIf="userCtrl.errors?.['required']">El usuario es obligatorio.</div>
+      <div *ngIf="userCtrl.errors?.['min']">Debe ser ≥ 1.</div>
+    </div>
+  </div>
+
+  <!-- ARCHIVO: required + tipo imagen -->
+  <div>
+    <label>Archivo</label>
+    <input type="file" (change)="onFile($event)" accept="image/*" required>
+    <div *ngIf="!file && f.submitted" class="alert alert-danger">La imagen es obligatoria.</div>
+    <div *ngIf="file && !isImage" class="alert alert-danger">El archivo debe ser una imagen.</div>
+  </div>
+
+  <div style="display:flex; gap:8px">
+    <button type="button" class="btn" (click)="cancelar()">Cancelar</button>
+    <!-- ✅ Botón deshabilitado cuando falten reglas -->
+    <button type="submit" class="btn btn-primary" [disabled]="f.invalid || !file || !isImage || subiendo">
+      {{ subiendo ? 'Subiendo…' : 'Crear' }}
+    </button>
+  </div>
+</form>

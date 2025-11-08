@@ -1,0 +1,28 @@
+/* Asegura que el form se vea más definido */
+input.form-control,
+textarea.form-control,
+select.form-control {
+  border: 2px solid #000000 !important;  /* verde bootstrap */
+  border-radius: 6px;
+  box-shadow: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input.form-control:focus,
+textarea.form-control:focus,
+select.form-control:focus {
+  border-color: #000000 !important;      /* un verde más oscuro */
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.5); 
+}
+
+/* Card de los adjuntos */
+.card {
+  border: 2px solid #000000 !important;
+  border-radius: 8px;
+}
+
+/* Botones de quitar archivo */
+.list-group-item {
+  border: 1.5px solid #ddd !important;
+  border-radius: 6px;
+}

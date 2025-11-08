@@ -1,0 +1,61 @@
+<div class="app-shell d-flex flex-column min-vh-100">
+  <!-- NAVBAR -->
+  <app-navbar></app-navbar>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="container mt-4 flex-grow-1">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer bg-dark text-white mt-auto py-3">
+    <div class="container footer-grid small">
+      <div class="row gy-3">
+        <!-- Columna 1: Acerca de -->
+        <div class="col-md-4">
+          <h6 class="footer-title mb-2">
+            <i class="fas fa-circle-info me-2"></i>Acerca de
+          </h6>
+          <p class="small mb-1">
+            Este sistema de préstamos fue desarrollado como parte del proyecto académico
+            de la Biblioteca Municipal BEC. Permite consultar el catálogo, solicitar préstamos
+            y gestionar devoluciones.
+          </p>
+          <a routerLink="/acercade" class="footer-link small">Leer más…</a>
+        </div>
+
+        <!-- Columna 2: Enlaces útiles -->
+        <div class="col-md-4">
+          <h6 class="footer-title mb-2">
+            <i class="fas fa-link me-2"></i>Enlaces útiles
+          </h6>
+          <ul class="footer-list list-unstyled mb-0 small">
+            <li><a routerLink="/" class="footer-link">Inicio</a></li>
+            <li><a routerLink="/catalogo" class="footer-link">Catálogo</a></li>
+            <li><a routerLink="/prestamos" class="footer-link">Préstamos</a></li>
+            <li><a routerLink="/contacto" class="footer-link">Contacto</a></li>
+          </ul>
+        </div>
+
+        <!-- Columna 3: Redes sociales -->
+        <div class="col-md-4">
+          <h6 class="footer-title mb-2">
+            <i class="fas fa-share-alt me-2"></i>Síguenos
+          </h6>
+          <div class="d-flex gap-2">
+            <a href="#" class="btn btn-outline-light btn-sm"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="btn btn-outline-light btn-sm"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="btn btn-outline-light btn-sm"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="btn btn-outline-light btn-sm"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <hr class="footer-sep my-2" />
+
+      <p class="text-center small mb-0 opacity-75">
+        &copy; 2025 Biblioteca BEC · Proyecto académico · Grupo1
+      </p>
+    </div>
+  </footer>
+</div>

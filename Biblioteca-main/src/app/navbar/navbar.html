@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/">
+      <i class="fas fa-book-open"></i> Biblioteca BEC
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" routerLink="/"><i class="fas fa-home"></i> Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/catalogo"><i class="fas fa-book"></i> Catálogo</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/prestamos"><i class="fas fa-list"></i> Mis reservas</a></li>
+
+        <!-- 🔒 Aquí controlamos el login -->
+        <li class="nav-item" *ngIf="!authService.isLoggedIn()">
+          <a class="nav-link" routerLink="/login"><i class="fas fa-key"></i> Iniciar sesión</a>
+        </li>
+        <li class="nav-item dropdown" *ngIf="authService.isLoggedIn()">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+            <i class="fas fa-user"></i> Cuenta
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" (click)="logout()">Cerrar sesión</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

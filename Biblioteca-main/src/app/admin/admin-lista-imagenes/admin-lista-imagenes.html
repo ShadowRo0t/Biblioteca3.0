@@ -1,0 +1,35 @@
+<h3>Imágenes</h3>
+<div style="margin-bottom:12px">
+  <a routerLink="/admin/imagenes/crear" class="btn btn-success">Nueva imagen</a>
+  <button class="btn" (click)="refresh()">Actualizar</button>
+</div>
+
+<ng-container *ngIf="imagenes$ | async as imagenes; else cargando">
+  <p *ngIf="!imagenes.length">No hay imágenes.</p>
+
+  <ul *ngIf="imagenes.length" style="display:grid; gap:10px; list-style:none; padding:0">
+    <li *ngFor="let img of imagenes; trackBy: trackId"
+        style="display:flex; align-items:center; gap:12px">
+      <img [src]="img.miniatura || img.ruta"
+           alt="{{ img.titulo }}"
+           (error)="imgError($event)"
+           style="width:100px; height:auto; object-fit:cover; border:1px solid #ddd">
+      <div style="flex:1">
+        <div><strong>{{ img.titulo }}</strong></div>
+        <div>
+          <a [href]="img.ruta" target="_blank" rel="noopener">
+            {{ img.ruta }}
+          </a>
+        </div>
+      </div>
+      <div style="display:flex; gap:6px">
+        <button class="btn">Editar</button>
+        <button class="btn btn-danger">Eliminar</button>
+      </div>
+    </li>
+  </ul>
+</ng-container>
+
+<ng-template #cargando>
+  <p>Cargando…</p>
+</ng-template>

@@ -1,0 +1,17 @@
+<h2>Imágenes</h2>
+
+<form (ngSubmit)="onSubmit()" #f="ngForm" style="display:grid;gap:8px;max-width:420px">
+  <input name="titulo" [(ngModel)]="titulo" required maxlength="100" placeholder="Título">
+  <input type="number" name="userId" [(ngModel)]="userId" required min="1" placeholder="User ID">
+  <input type="file" (change)="onFileSelected($event)" accept="image/*" required>
+  <button type="submit" [disabled]="!f.form.valid || !file">Subir</button>
+</form>
+
+<hr />
+
+<ul>
+  <li *ngFor="let img of (imagenes$ | async)">
+    <strong>{{ img.titulo | uppercase }}</strong>
+    — <a [href]="img.ruta" target="_blank" rel="noopener">{{ img.ruta }}</a>
+  </li>
+</ul>

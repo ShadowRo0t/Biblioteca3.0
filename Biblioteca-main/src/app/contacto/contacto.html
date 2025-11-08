@@ -1,0 +1,77 @@
+<div class="container py-4">
+  <h2 class="mb-3">📬 Contacto</h2>
+  <p class="text-muted">
+    ¿Tienes dudas o sugerencias sobre el sistema de préstamos? Escríbenos y, si quieres, adjunta archivos de apoyo.
+  </p>
+
+  <form class="row g-3" (ngSubmit)="enviar()" novalidate>
+    <!-- Nombre -->
+    <div class="col-md-6">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input id="nombre" type="text" class="form-control" [(ngModel)]="nombre" name="nombre" required />
+    </div>
+
+    <!-- Correo -->
+    <div class="col-md-6">
+      <label for="correo" class="form-label">Correo</label>
+      <input id="correo" type="email" class="form-control" [(ngModel)]="correo" name="correo" required />
+      <small class="text-muted">Ej: nombre@dominio.com</small>
+    </div>
+
+    <!-- Mensaje -->
+    <div class="col-12">
+      <label for="mensaje" class="form-label">Mensaje</label>
+      <textarea id="mensaje" class="form-control" rows="5" [(ngModel)]="mensaje" name="mensaje" required></textarea>
+    </div>
+
+    <!-- Adjuntar archivos -->
+    <div class="col-12">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <label class="form-label d-block">Adjuntar archivos (opcional)</label>
+
+          <input
+            type="file"
+            class="form-control"
+            (change)="onFilesSelected($event)"
+            multiple
+            accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+          />
+
+          <small class="d-block mt-2 text-muted">
+            Tipos permitidos: PDF, JPG, PNG, DOC/DOCX. Máx {{maxFiles}} archivos, {{maxSizeMB}}MB c/u.
+          </small>
+
+          <!-- Errores de archivos -->
+          <div *ngIf="errorArchivos" class="alert alert-danger mt-3 mb-0">
+            {{ errorArchivos }}
+          </div>
+
+          <!-- Lista de archivos seleccionados -->
+          <ul class="list-group mt-3" *ngIf="archivos.length">
+            <li class="list-group-item d-flex justify-content-between align-items-center"
+                *ngFor="let f of archivos; let i = index">
+              <div>
+                <strong>{{ f.name }}</strong>
+                <small class="text-muted"> — {{ pesoHumano(f.size) }}</small>
+              </div>
+              <button type="button" class="btn btn-sm btn-outline-danger" (click)="quitarArchivo(i)">
+                Quitar
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="col-12">
+      <button type="submit" class="btn btn-primary" [disabled]="formInvalido()">
+        <i class="fas fa-paper-plane"></i> Enviar
+      </button>
+      <a routerLink="/" class="btn btn-outline-secondary ms-2">
+        <i class="fas fa-home"></i> Volver al inicio
+      </a>
+    </div>
+  </form>
+</div>
