@@ -42,7 +42,7 @@ Antes de comenzar asegúrate de tener instalado:
 #Pasos para correr el Back
 1) cd desarrollo-web-main\Biblioteca-main\Backend
 2) npm run seed -> (Cargar los datos a la base de datos)
-3) npm run dev -> (Ejecuta el back)
+3) npm run dev -> (Ejecuta el back)\n
 ------en otra terminal---------
 4) cd desarrollo-web-main\Biblioteca-main
 5) ng serve
