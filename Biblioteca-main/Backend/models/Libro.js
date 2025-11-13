@@ -47,4 +47,23 @@ const libroSchema = new mongoose.Schema({
   timestamps: true
 });
 
+function syncDisponibilidad(libro) {
+  if (typeof libro.copias_totales === 'number' && typeof libro.copias_disponibles === 'number') {
+    if (libro.copias_disponibles > libro.copias_totales) {
+      libro.copias_disponibles = libro.copias_totales;
+    }
+  }
+
+  libro.disponibilidad = (libro.copias_disponibles ?? 0) > 0 ? 'Disponible' : 'Agotado';
+}
+
+libroSchema.pre('save', function(next) {
+  syncDisponibilidad(this);
+  next();
+});
+
+libroSchema.methods.actualizarDisponibilidad = function() {
+  syncDisponibilidad(this);
+};
+
 module.exports = mongoose.model('Libro', libroSchema);

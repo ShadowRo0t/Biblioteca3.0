@@ -106,10 +106,12 @@ app.get('/api/test', (req, res) => {
 try {
   const authRoutes = require('./routes/auth');
   const reservasRoutes = require('./routes/reservas');
+  const librosRoutes = require('./routes/libros');
   const imagenesRoutes = require('./routes/imagenes');
 
   app.use('/api/auth', authRoutes);
   app.use('/api', reservasRoutes);
+  app.use('/api', librosRoutes);
   app.use('/api/v1', imagenesRoutes);
   
   console.log(' Rutas cargadas correctamente');
@@ -118,6 +120,7 @@ try {
   console.error(' Asegúrate de que existen los archivos:');
   console.error('   - routes/auth.js');
   console.error('   - routes/reservas.js');
+  console.error('   - routes/libros.js');
   console.error('   - routes/imagenes.js');
   process.exit(1);
 }
@@ -158,6 +161,10 @@ app.listen(PORT, () => {
   console.log('   POST /api/auth/login    - Login de usuario');
   console.log('   GET  /api/reservas      - Listar reservas (auth)');
   console.log('   POST /api/reservas      - Crear reserva (auth)');
+  console.log('   GET  /api/libros        - Listar libros');
+  console.log('   POST /api/libros        - Crear libro (admin)');
+  console.log('   PATCH /api/libros/:id   - Actualizar libro (admin)');
+  console.log('   PATCH /api/libros/:id/stock - Añadir stock a un libro (admin)');
   console.log('   GET  /api/v1/imagenes   - Listar imágenes');
   console.log('\n Presiona Ctrl+C para detener el servidor\n');
 });

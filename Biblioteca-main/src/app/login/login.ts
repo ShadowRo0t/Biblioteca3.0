@@ -32,14 +32,12 @@ export class Login {
     if (this.form.invalid) return;
 
     this.authService.login(this.form.value).subscribe({
-      next: (res: any) => {
-        // Laravel debe devolver { token: "...", user: {...} }
-        if (res.token) {
-          this.authService.saveToken(res.token); //  guardamos token
-          alert(' Sesión iniciada correctamente');
-          this.router.navigate(['/prestamos']); // redirigimos a Dashboard
+      next: () => {
+        alert(' Sesión iniciada correctamente');
+        if (this.authService.isAdmin()) {
+          this.router.navigate(['/admin']);
         } else {
-          alert(' No se recibió token desde el backend');
+          this.router.navigate(['/prestamos']);
         }
       },
       error: (err) => {

@@ -7,12 +7,9 @@ const reservaSchema = new mongoose.Schema({
     required: true
   },
   libro_id: {
-    type: Number,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Libro',
     required: [true, 'El ID del libro es obligatorio']
-  },
-  libro: {
-    type: Object,
-    required: false
   },
   tipo: {
     type: String,

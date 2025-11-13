@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth'; // ajusta la ruta si es distinta
 import { ReservaService } from '../services/reserva';
+import { LibroService, Libro } from '../services/libro';
 
 @Component({
   selector: 'app-catalogo',
@@ -12,122 +13,64 @@ import { ReservaService } from '../services/reserva';
   templateUrl: './catalogo.html',
   styleUrls: ['./catalogo.css']
 })
-export class Catalogo {
+export class Catalogo implements OnInit {
   searchTerm: string = '';
 
   // ----- ESTADO DEL MODAL / CALENDARIO -----
   showCalendario = false;
-  libroSeleccionado: any = null;
+  libroSeleccionado: Libro | null = null;
   fechaDesde = '';
   fechaHasta = '';
+
+  libros: Libro[] = [];
+  isLoading = signal(false);
+  loadError = signal<string | null>(null);
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private reservaService: ReservaService
+    private reservaService: ReservaService,
+    private libroService: LibroService
   ) {}
+
+  ngOnInit(): void {
+    this.fetchLibros();
+  }
+
+  private fetchLibros(): void {
+    this.isLoading.set(true);
+    this.loadError.set(null);
+
+    this.libroService.getLibros().subscribe({
+      next: (libros) => {
+        this.libros = libros;
+      },
+      error: () => {
+        this.loadError.set('No se pudieron cargar los libros del catálogo.');
+        this.isLoading.set(false);
+      },
+      complete: () => this.isLoading.set(false),
+    });
+  }
 
   // mínimo: hoy (para no permitir fechas pasadas)
   get hoy(): string {
     return new Date().toISOString().split('T')[0];
   }
 
-  libros = [
-    {
-      id: 1,
-      titulo: 'Cien años de soledad',
-      disponibilidad: '(Disponible)',
-      autor: 'Gabriel García Márquez',
-      genero: 'novela realista magico',
-      descripcion: 'Una de las obras más importantes de la literatura hispanoamericana.',
-      imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT40DdhptlKmZrqWs42vaYh5q8dDTYqSjac2g&s',
-      anio_edicion: '1967',
-    },
-    {
-      id: 2,
-      titulo: 'Don Quijote de la Mancha',
-      disponibilidad: '(Agotado)',
-      autor: 'Miguel de Cervantes',
-      genero: 'narrativo',
-      descripcion: 'La historia del caballero andante y su escudero Sancho Panza.',
-      imagen: 'https://www.elejandria.com/covers/Don_Quijote_de_la_Mancha-Cervantes_Miguel-lg.png',
-      anio_edicion: '1605',
-    },
-    {
-      id: 3,
-      titulo: 'El Principito',
-      disponibilidad: '(Disponible)',
-      autor: 'Antoine de Saint-Exupéry',
-      genero: 'novela infantil',
-      descripcion: 'Un clásico que explora la infancia, la imaginación y la amistad.',
-      imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGS4EXMwDImmp1Hi_uCZebMn8bCVnF6JPyww&s',
-      anio_edicion: '1943',
-    },
-    {
-      id: 4,
-      titulo: 'Crepúsculo',
-      disponibilidad: '(Disponible)',
-      autor: 'Stephenie Meyer',
-      genero: 'novela fantasia romance y ciencia ficcion',
-      descripcion: 'Un clásico que explora el amor sobrenatural.',
-      imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQp80W-_ySBHlkvUtqDeOpwfYok3oSG9uY7qw&s',
-      anio_edicion: '2005',
-    },
-    {
-      id: 5,
-      titulo: 'La Odisea',
-      disponibilidad: '(Disponible)',
-      autor: 'Homero',
-      genero: 'poema epico',
-      descripcion: 'Historia del héroe griego Ulises.',
-      imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-do1cARnM5ZjqdKeSUiaUpqTzrkRVOWEfpg&s',
-      anio_edicion: 'siglo VIII a. C.',
-    },
-    {
-      id: 6,
-      titulo: 'Harry Potter y la piedra filosofal',
-      disponibilidad: '(Agotado)',
-      autor: 'J. K. Rowling',
-      genero: 'novela magica',
-      descripcion: 'Historia de un niño que descubre que es mago.',
-      imagen: 'https://imgv2-1-f.scribdassets.com/img/word_document/636301739/original/216x287/f40ab5f3e7/1752077214?v=1',
-      anio_edicion: '1997',
-    },
-    {
-      id: 7,
-      titulo: 'Papelucho detective',
-      disponibilidad: '(Disponible)',
-      autor: 'Marcela Paz',
-      genero: 'Ficcion',
-      descripcion: 'Un niño ingenioso se convierte en detective amateur tras un viaje con su amigo Chirigüe.',
-      imagen: 'https://dojiw2m9tvv09.cloudfront.net/82626/product/asdsdsfasdasd3465.png',
-      anio_edicion: '1956',
-    },
-    {
-      id: 8,
-      titulo: 'Diario de Ana Frank',
-      disponibilidad: '(Disponible)',
-      autor: 'Ana Frank',
-      genero: 'Biografía, Autobiografía, Narrativa personal',
-      descripcion: 'Relato íntimo durante el escondite en el anexo secreto de Ámsterdam.',
-      imagen: 'https://www.antartica.cl/media/catalog/product/9/7/9789878354194_1.png?quality=80&bg-color=255,255,255&fit=bounds&height=700&width=700&canvas=700:700&format=jpeg',
-      anio_edicion: '1947',
-    }
-  ];
-
   // 🔍 Filtro de búsqueda
   librosFiltrados() {
     if (!this.searchTerm) return this.libros;
     const term = this.searchTerm.toLowerCase();
     return this.libros.filter(libro =>
-      libro.titulo.toLowerCase().includes(term) ||
-      libro.autor.toLowerCase().includes(term) ||
-      libro.genero.toLowerCase().includes(term)
+      libro.titulo?.toLowerCase().includes(term) ||
+      libro.autor?.toLowerCase().includes(term) ||
+      libro.genero?.toLowerCase().includes(term)
     );
   }
 
   // ----- MODAL: abrir / cerrar / confirmar -----
-  openCalendario(libro: any) {
+  openCalendario(libro: Libro) {
     // 🔒 Validación de sesión
     if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/login']); // si no está logueado → login
@@ -135,7 +78,9 @@ export class Catalogo {
     }
 
     // si está agotado → no permitir
-    if (libro.disponibilidad.toLowerCase().includes('agotado')) return;
+    if (!this.isLibroReservable(libro)) {
+      return;
+    }
 
     // si está logueado y disponible → abrir modal
     this.libroSeleccionado = libro;
@@ -150,73 +95,50 @@ export class Catalogo {
   }
 
   confirmarPrestamo() {
-  if (!this.fechaDesde || !this.fechaHasta) {
-    alert('Selecciona ambas fechas (desde y hasta).');
-    return;
-  }
-  if (this.fechaDesde > this.fechaHasta) {
-    alert('La fecha “desde” no puede ser mayor que la “hasta”.');
-    return;
-  }
+    if (!this.fechaDesde || !this.fechaHasta) {
+      alert('Selecciona ambas fechas (desde y hasta).');
+      return;
+    }
+    if (this.fechaDesde > this.fechaHasta) {
+      alert('La fecha “desde” no puede ser mayor que la “hasta”.');
+      return;
+    }
 
-  const nuevaReserva = {
-    libro_id: this.libroSeleccionado?.id,
-    tipo: 'prestamo',
-    desde: this.fechaDesde,
-    hasta: this.fechaHasta
-  };
+    if (!this.libroSeleccionado?._id) {
+      alert('No se pudo identificar el libro seleccionado.');
+      return;
+    }
 
-  // 🔹 Llamada al backend
-  this.reservaService.crearReserva(nuevaReserva).subscribe({
-    next: (res) => {
-      alert(`✅ Préstamo registrado para "${this.libroSeleccionado?.titulo}" 
+    const nuevaReserva = {
+      libro_id: this.libroSeleccionado._id,
+      tipo: 'prestamo',
+      desde: this.fechaDesde,
+      hasta: this.fechaHasta
+    };
+
+    this.reservaService.crearReserva(nuevaReserva).subscribe({
+      next: () => {
+        alert(`✅ Préstamo registrado para "${this.libroSeleccionado?.titulo}" 
 Desde: ${this.fechaDesde} 
 Hasta: ${this.fechaHasta}`);
 
-      // Cierra modal y redirige al dashboard
-      this.cerrarCalendario();
-      this.router.navigate(['/prestamos']);
-    },
-    error: (err) => {
-      console.error('Error al crear la reserva', err);
-      alert('❌ Ocurrió un error al registrar la reserva.');
-    }
-  }); // 👈 este paréntesis faltaba
-}
-// En catalogo.ts
-crearReserva() {
-  if (!this.fechaDesde || !this.fechaHasta) {
-    alert('Debes seleccionar ambas fechas');
-    return;
+        this.cerrarCalendario();
+        this.fetchLibros();
+        this.router.navigate(['/prestamos']);
+      },
+      error: (err) => {
+        console.error('Error al crear la reserva', err);
+        alert('❌ Ocurrió un error al registrar la reserva.');
+      }
+    });
   }
 
-  const data = {
-    libro_id: this.libroSeleccionado.id,
-    tipo: 'prestamo', // o la que selecciones
-    desde: this.fechaDesde,
-    hasta: this.fechaHasta
-  };
+  getEstadoClase(libro: Libro): 'disponible' | 'no-disponible' {
+    return this.isLibroReservable(libro) ? 'disponible' : 'no-disponible';
+  }
 
-  console.log('📝 Enviando reserva:', data);
-
-  this.reservaService.crearReserva(data).subscribe({
-    next: (response) => {
-      console.log('✅ Reserva creada:', response);
-      alert('✅ ¡Reserva creada exitosamente!');
-      
-      // ✅ Limpiar formulario
-      this.showCalendario = false;
-      this.fechaDesde = '';
-      this.fechaHasta = '';
-      this.libroSeleccionado = null;
-
-      // ✅ Recargar las reservas (opcional, ya lo hace el servicio)
-      // this.reservaService.recargarReservas();
-    },
-    error: (error) => {
-      console.error('❌ Error:', error);
-      alert('❌ ' + error);
-    }
-  });
-}
+  isLibroReservable(libro: Libro): boolean {
+    const disponibilidad = (libro.disponibilidad || '').toLowerCase();
+    return disponibilidad === 'disponible' && (libro.copias_disponibles ?? 0) > 0;
+  }
 }

@@ -16,8 +16,14 @@
   
   <h2 class="mb-4">📖 Catálogo de Libros</h2>
 
+  <div class="alert alert-info" *ngIf="isLoading()">Cargando libros...</div>
+  <div class="alert alert-danger" *ngIf="!isLoading() && loadError()">{{ loadError() }}</div>
+  <div class="alert alert-warning" *ngIf="!isLoading() && !loadError() && librosFiltrados().length === 0">
+    No se encontraron libros que coincidan con tu búsqueda.
+  </div>
+
   <!-- 4 libros por fila en md+ -->
-  <div class="row row-cols-1 row-cols-md-4 g-4">
+  <div class="row row-cols-1 row-cols-md-4 g-4" *ngIf="!isLoading() && !loadError()">
     <div class="col" *ngFor="let libro of librosFiltrados()">
       <div class="card shadow-sm h-100">
         <img [src]="libro.imagen" class="card-img-top" alt="Portada de {{libro.titulo}}">
@@ -29,10 +35,7 @@
           <!-- Estado del libro -->
           <span 
             class="estado"
-            [ngClass]="{
-              'disponible': libro.disponibilidad.toLowerCase().includes('disponible'),
-              'no-disponible': libro.disponibilidad.toLowerCase().includes('agotado')
-            }">
+            [ngClass]="getEstadoClase(libro)">
             {{ libro.disponibilidad }}
           </span>
 
@@ -40,14 +43,17 @@
           <h6 class="text-muted">Autor: {{ libro.autor }}</h6>
           <h6 class="text-muted">Género: {{ libro.genero }}</h6>
           <h6 class="text-muted">Año de edición: {{ libro.anio_edicion }}</h6>
+          <span class="stock" *ngIf="libro.copias_totales !== undefined">
+            Disponibles: {{ libro.copias_disponibles }} / {{ libro.copias_totales }}
+          </span>
           <p class="card-text">{{ libro.descripcion }}</p>
 
           <!-- Botón para abrir calendario -->
           <div class="mt-auto">
             <button 
               class="btn"
-              [ngClass]="libro.disponibilidad.toLowerCase().includes('disponible') ? 'btn-success' : 'btn-secondary'"
-              [disabled]="libro.disponibilidad.toLowerCase().includes('agotado')"
+              [ngClass]="isLibroReservable(libro) ? 'btn-success' : 'btn-secondary'"
+              [disabled]="!isLibroReservable(libro)"
               (click)="openCalendario(libro)">
               Solicitar préstamo
             </button>

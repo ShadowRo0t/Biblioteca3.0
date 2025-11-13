@@ -14,6 +14,9 @@
         <li class="nav-item"><a class="nav-link" routerLink="/"><i class="fas fa-home"></i> Inicio</a></li>
         <li class="nav-item"><a class="nav-link" routerLink="/catalogo"><i class="fas fa-book"></i> Catálogo</a></li>
         <li class="nav-item"><a class="nav-link" routerLink="/prestamos"><i class="fas fa-list"></i> Mis reservas</a></li>
+        <li class="nav-item" *ngIf="authService.isAdmin()">
+          <a class="nav-link" routerLink="/admin/libros"><i class="fas fa-plus-circle"></i> Gestionar libros</a>
+        </li>
 
         <!-- 🔒 Aquí controlamos el login -->
         <li class="nav-item" *ngIf="!authService.isLoggedIn()">

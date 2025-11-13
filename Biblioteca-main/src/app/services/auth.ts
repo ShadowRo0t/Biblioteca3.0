@@ -6,6 +6,12 @@ import { catchError, tap } from 'rxjs/operators';
 // Interfaz para tipar la respuesta del login
 interface LoginResponse {
   token: string;
+  user?: {
+    id: string;
+    name: string;
+    email: string;
+    role: 'user' | 'admin';
+  };
   [key: string]: any;
 }
 
@@ -14,6 +20,8 @@ interface LoginResponse {
 })
 export class AuthService {
   private apiUrl = 'http://127.0.0.1:8000/api';
+  private tokenKey = 'auth_token';
+  private userKey = 'auth_user';
 
   constructor(private http: HttpClient) {}
 
@@ -44,10 +52,7 @@ export class AuthService {
     return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, credentials, { headers }).pipe(
       tap(response => {
         console.log('✅ Login exitoso:', response);
-        if (response.token) {
-          this.saveToken(response.token);
-          console.log('✅ Token guardado en localStorage');
-        }
+        this.handleLoginSuccess(response);
       }),
       catchError(error => {
         console.error('❌ Error en login:', error.error?.message || error.message);
@@ -58,24 +63,64 @@ export class AuthService {
     );
   }
 
+  private handleLoginSuccess(response: LoginResponse) {
+    if (response.token) {
+      this.saveToken(response.token);
+    }
+
+    if (response.user) {
+      this.saveUser(response.user);
+    }
+  }
+
   saveToken(token: string) {
     if (this.isBrowser()) {
-      localStorage.setItem('auth_token', token);
+      localStorage.setItem(this.tokenKey, token);
       console.log('✅ Token guardado');
     }
   }
 
   getToken(): string | null {
     if (this.isBrowser()) {
-      return localStorage.getItem('auth_token');
+      return localStorage.getItem(this.tokenKey);
     }
     return null;
   }
 
+  saveUser(user: LoginResponse['user']) {
+    if (this.isBrowser() && user) {
+      localStorage.setItem(this.userKey, JSON.stringify(user));
+      console.log('✅ Datos de usuario guardados');
+    }
+  }
+
+  getUser(): LoginResponse['user'] | null {
+    if (!this.isBrowser()) {
+      return null;
+    }
+
+    const raw = localStorage.getItem(this.userKey);
+    if (!raw) {
+      return null;
+    }
+
+    try {
+      return JSON.parse(raw);
+    } catch (error) {
+      console.warn('⚠️ No se pudo parsear el usuario desde localStorage', error);
+      return null;
+    }
+  }
+
+  isAdmin(): boolean {
+    return this.getUser()?.role === 'admin';
+  }
+
   logout() {
     if (this.isBrowser()) {
-      localStorage.removeItem('auth_token');
-      console.log('✅ Token eliminado - Usuario deslogueado');
+      localStorage.removeItem(this.tokenKey);
+      localStorage.removeItem(this.userKey);
+      console.log('✅ Sesión cerrada - Token y datos eliminados');
     }
   }
 
