@@ -1,9 +1,14 @@
 <div class="container mt-4">
   <h2 class="mb-4 text-center"> Mis Reservas</h2>
 
+  <!-- Cargando -->
+  <div *ngIf="loading" class="alert alert-info text-center">
+    ⏳ Cargando reservas...
+  </div>
+
   <!-- Si no hay reservas -->
-  <div *ngIf="reservas.length === 0" class="alert alert-info text-center">
-    No tienes reservas activas.
+  <div *ngIf="!loading && reservas.length === 0" class="alert alert-info text-center">
+    📚 No tienes reservas activas. ¡Crea una nueva desde el catálogo!
   </div>
 
   <!-- Tabla de reservas -->
@@ -19,16 +24,16 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let reserva of reservas">
-        <td>{{ reserva.id }}</td>
-        <td>{{ reserva.libro?.titulo }}</td>
+      <tr *ngFor="let reserva of reservas; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ reserva.libro?.titulo || 'Libro no encontrado' }}</td>
         <td>{{ reserva.tipo }}</td>
-        <td>{{ reserva.desde }}</td>
-        <td>{{ reserva.hasta }}</td>
+        <td>{{ reserva.desde | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ reserva.hasta | date: 'dd/MM/yyyy' }}</td>
         <td>
           <button
             class="btn btn-danger btn-sm"
-            (click)="cancelarReserva(reserva.id)">
+            (click)="cancelarReserva(reserva._id || reserva.id)">
              Cancelar reservacion
           </button>
         </td>

@@ -183,4 +183,40 @@ Hasta: ${this.fechaHasta}`);
     }
   }); // 👈 este paréntesis faltaba
 }
+// En catalogo.ts
+crearReserva() {
+  if (!this.fechaDesde || !this.fechaHasta) {
+    alert('Debes seleccionar ambas fechas');
+    return;
+  }
+
+  const data = {
+    libro_id: this.libroSeleccionado.id,
+    tipo: 'prestamo', // o la que selecciones
+    desde: this.fechaDesde,
+    hasta: this.fechaHasta
+  };
+
+  console.log('📝 Enviando reserva:', data);
+
+  this.reservaService.crearReserva(data).subscribe({
+    next: (response) => {
+      console.log('✅ Reserva creada:', response);
+      alert('✅ ¡Reserva creada exitosamente!');
+      
+      // ✅ Limpiar formulario
+      this.showCalendario = false;
+      this.fechaDesde = '';
+      this.fechaHasta = '';
+      this.libroSeleccionado = null;
+
+      // ✅ Recargar las reservas (opcional, ya lo hace el servicio)
+      // this.reservaService.recargarReservas();
+    },
+    error: (error) => {
+      console.error('❌ Error:', error);
+      alert('❌ ' + error);
+    }
+  });
+}
 }

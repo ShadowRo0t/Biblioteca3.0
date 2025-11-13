@@ -12,7 +12,7 @@ export interface Imagen {
   updated_at: string;
 }
 
-const API_BASE = 'http://homestead.test/api/v1';
+const API_BASE = 'http://localhost:8000/api/v1';
 const HOST = 'http://homestead.test';
 const toAbs = (p?: string | null) => !p ? '' : (p.startsWith('http') ? p : `${HOST}${p}`);
 

@@ -1,0 +1,528 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #f5f5f5;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+/* ==================== AUTENTICACIÓN ==================== */
+
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  padding: 20px;
+}
+
+.auth-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 100%;
+  max-width: 450px;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.auth-header h1 {
+  font-size: 32px;
+  color: #28a745;
+  margin-bottom: 10px;
+}
+
+.auth-header p {
+  color: #666;
+  font-size: 16px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input {
+  padding: 14px 18px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 16px;
+  transition: all 0.3s;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #28a745;
+  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+}
+
+.button {
+  padding: 14px 24px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  outline: none;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.button.primary {
+  background: #28a745;
+  color: white;
+}
+
+.button.primary:hover:not(:disabled) {
+  background: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.button.secondary {
+  background: transparent;
+  color: #28a745;
+  border: 2px solid #28a745;
+}
+
+.button.secondary:hover:not(:disabled) {
+  background: #28a745;
+  color: white;
+}
+
+.button.danger {
+  background: #dc3545;
+  color: white;
+}
+
+.button.danger:hover:not(:disabled) {
+  background: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.button.logout {
+  background: #6c757d;
+  color: white;
+  font-size: 14px;
+  padding: 10px 20px;
+}
+
+.button.logout:hover {
+  background: #5a6268;
+}
+
+.button.back {
+  background: #6c757d;
+  color: white;
+  font-size: 14px;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+}
+
+.button.back:hover {
+  background: #5a6268;
+}
+
+.test-users {
+  margin-top: 30px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.test-users p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.test-users p:first-child {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* ==================== CONTAINER PRINCIPAL ==================== */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* ==================== MODO MÓVIL - Contenedor centrado ==================== */
+/* Opcional: Descomenta esto si quieres que se vea como un móvil en desktop */
+/*
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #333;
+}
+
+#root {
+  width: 100%;
+  max-width: 414px; /* Ancho típico de un iPhone */
+  margin: 0 auto;
+  background: white;
+  min-height: 100vh;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+*/
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.header {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h1, .header h2 {
+  color: #28a745;
+  font-size: 28px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-info span {
+  color: #666;
+  font-weight: 500;
+}
+
+/* ==================== MENÚ HOME ==================== */
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.menu-card {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.menu-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.menu-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+}
+
+.menu-card h3 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.menu-card p {
+  color: #666;
+  font-size: 14px;
+}
+
+/* ==================== BUSCADOR ==================== */
+
+.search-bar {
+  margin-bottom: 30px;
+}
+
+.search-bar .input {
+  width: 100%;
+  font-size: 16px;
+}
+
+/* ==================== CATÁLOGO DE LIBROS ==================== */
+
+.libros-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.libro-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.libro-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.libro-imagen {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.libro-info {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.libro-info h3 {
+  color: #333;
+  font-size: 18px;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.libro-autor {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.libro-genero {
+  color: #999;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.libro-estado {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.libro-estado.disponible {
+  background: #d4edda;
+  color: #155724;
+}
+
+.libro-estado.agotado {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.libro-info .button {
+  margin-top: auto;
+  width: 100%;
+}
+
+/* ==================== RESERVAS ==================== */
+
+.reservas-list {
+  display: grid;
+  gap: 20px;
+}
+
+.reserva-card {
+  background: white;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  transition: all 0.3s;
+}
+
+.reserva-card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.reserva-info {
+  flex: 1;
+}
+
+.reserva-info h3 {
+  color: #333;
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.reserva-info p {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.reserva-tipo {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 10px;
+  background: #e7f5ff;
+  color: #0c5460;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ==================== ESTADO VACÍO ==================== */
+
+.empty-state {
+  background: white;
+  border-radius: 16px;
+  padding: 60px 40px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.empty-state p {
+  color: #666;
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+
+.empty-state .button {
+  display: inline-block;
+  padding: 14px 32px;
+}
+
+/* ==================== RESPONSIVE ==================== */
+
+@media (max-width: 768px) {
+  .auth-card {
+    padding: 30px 20px;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .user-info {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .menu-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .libros-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .reserva-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .reserva-card .button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 25px 15px;
+  }
+
+  .header h1, .header h2 {
+    font-size: 22px;
+  }
+
+  .menu-card {
+    padding: 30px 20px;
+  }
+
+  .menu-icon {
+    font-size: 48px;
+  }
+
+  .libro-imagen {
+    height: 250px;
+  }
+}
+
+/* ==================== SCROLL SUAVE ==================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ==================== SCROLLBAR PERSONALIZADA ==================== */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #28a745;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #218838;
+}

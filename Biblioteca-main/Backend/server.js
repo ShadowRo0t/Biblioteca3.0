@@ -20,9 +20,35 @@ const PORT = process.env.PORT || 8000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/biblioteca_bec';
 
 // Middlewares
+// Configuración CORS para permitir múltiples orígenes (Angular, Flutter Web, etc.)
 app.use(cors({
-  origin: 'http://localhost:4200',
-  credentials: true
+  origin: function (origin, callback) {
+    // En desarrollo, permitir todos los orígenes de localhost (cualquier puerto)
+    // Esto es necesario porque Flutter Web puede usar puertos dinámicos
+    if (!origin) {
+      // Permitir requests sin origin (como Postman, curl, etc.)
+      callback(null, true);
+      return;
+    }
+    
+    // Permitir cualquier origen de localhost o 127.0.0.1 (cualquier puerto)
+    const isLocalhost = origin.startsWith('http://localhost:') || 
+                        origin.startsWith('http://127.0.0.1:') ||
+                        origin.startsWith('https://localhost:') ||
+                        origin.startsWith('https://127.0.0.1:');
+    
+    if (isLocalhost) {
+      callback(null, true);
+    } else {
+      // En desarrollo, también permitir otros orígenes (cambiar en producción)
+      console.log(`✅ Permitiendo origen: ${origin}`);
+      callback(null, true);
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-Requested-With'],
+  exposedHeaders: ['Content-Length', 'X-Foo', 'X-Bar'],
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

@@ -1,0 +1,41 @@
+name: biblioteca_flutter
+description: Aplicación móvil de Biblioteca BEC desarrollada con Flutter
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # HTTP y API
+  http: ^1.1.0
+  
+  # Almacenamiento local
+  shared_preferences: ^2.2.2
+  
+  # Navegación
+  go_router: ^13.0.0
+  
+  # UI
+  cupertino_icons: ^1.0.6
+  flutter_svg: ^2.0.9
+  cached_network_image: ^3.3.0
+  
+  # Utilidades
+  intl: ^0.19.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+# Enable the following for platform specific configuration
+# flutter:
+#   assets:
+#     - assets/images/

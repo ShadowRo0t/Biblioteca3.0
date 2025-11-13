@@ -18,10 +18,15 @@ const librosData = {
 
 router.get('/reservas', async (req, res) => {
   try {
+    // ✅ Log para depuración: ver qué usuario está solicitando sus reservas
+    console.log('📋 Obteniendo reservas para usuario:', req.user.userId, 'Email:', req.user.email, 'Rol:', req.user.role);
+    
     const reservas = await Reserva.find({ 
-      user_id: req.user.userId,
+      user_id: req.user.userId, // ✅ Solo reservas del usuario autenticado
       estado: 'activa'
     }).sort({ createdAt: -1 });
+
+    console.log(`✅ Encontradas ${reservas.length} reservas para el usuario ${req.user.userId}`);
 
     const reservasConLibros = reservas.map(reserva => {
       const libro = librosData[reserva.libro_id];
@@ -42,6 +47,9 @@ router.post('/reservas', async (req, res) => {
   try {
     const { libro_id, tipo, desde, hasta } = req.body;
 
+    // ✅ Log para depuración: ver qué usuario está creando la reserva
+    console.log('📝 Creando reserva para usuario:', req.user.userId, 'Email:', req.user.email, 'Rol:', req.user.role);
+
     if (!libro_id || !desde || !hasta) {
       return res.status(400).json({ 
         message: 'Faltan datos obligatorios: libro_id, desde, hasta' 
@@ -57,8 +65,9 @@ router.post('/reservas', async (req, res) => {
       });
     }
 
+    // ✅ Asegurar que user_id viene del token (no del body, por seguridad)
     const nuevaReserva = new Reserva({
-      user_id: req.user.userId,
+      user_id: req.user.userId, // ✅ Siempre del token autenticado
       libro_id,
       tipo: tipo || 'prestamo',
       desde: fechaDesde,
@@ -67,6 +76,7 @@ router.post('/reservas', async (req, res) => {
     });
 
     await nuevaReserva.save();
+    console.log('✅ Reserva guardada con user_id:', nuevaReserva.user_id);
 
     const libro = librosData[libro_id];
     const reservaConLibro = {

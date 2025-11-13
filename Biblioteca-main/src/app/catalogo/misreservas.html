@@ -1,0 +1,36 @@
+<div class="container">
+  <h2>Mis Reservas</h2>
+
+  <!-- Cargando -->
+  <div *ngIf="loading" class="loading">
+    ⏳ Cargando reservas...
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error" class="alert alert-danger">
+    ❌ {{ error }}
+  </div>
+
+  <!-- Lista de reservas -->
+  <div *ngIf="!loading && reservas.length > 0" class="reservas-list">
+    <div *ngFor="let reserva of reservas" class="reserva-card">
+      <h3>{{ reserva.libro?.titulo || 'Libro sin título' }}</h3>
+      <p><strong>Tipo:</strong> {{ reserva.tipo }}</p>
+      <p><strong>Desde:</strong> {{ reserva.desde | date: 'dd/MM/yyyy' }}</p>
+      <p><strong>Hasta:</strong> {{ reserva.hasta | date: 'dd/MM/yyyy' }}</p>
+      <p><strong>Estado:</strong> <span [ngClass]="'estado-' + reserva.estado">{{ reserva.estado }}</span></p>
+      
+      <button 
+        (click)="eliminarReserva(reserva._id)" 
+        class="btn btn-danger"
+        [disabled]="loading">
+        🗑️ Eliminar
+      </button>
+    </div>
+  </div>
+
+  <!-- Sin reservas -->
+  <div *ngIf="!loading && reservas.length === 0" class="no-reservas">
+    📚 No tienes reservas aún. ¡Crea una nueva!
+  </div>
+</div>
