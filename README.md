@@ -19,6 +19,9 @@ Antes de comenzar asegúrate de tener instalado:
 6) Angular CLI (en la consola del gitbash o powershell de la carpeta del proyecto)
 7) Vagrant https://developer.hashicorp.com/vagrant/install
 8) Tener correctamente instalado la carpeta Homestead (Guia 10 Instalación Laravel - Backend )
+9) Tener MongoDB instalado
+10) Tener MongoDB Compass instalado, para ver la base de datos
+11) Tener Flutter y android studio correctamente isntalado
 
 # Pasos para correr Laravel
 ###  Instalación
@@ -36,3 +39,16 @@ Antes de comenzar asegúrate de tener instalado:
 3) npm install
 4) ng serve
 
+#Pasos para correr el Back
+1) cd desarrollo-web-main\Biblioteca-main\Backend
+2) npm run seed -> (Cargar los datos a la base de datos)
+3) npm run dev -> (Ejecuta el back)
+------en otra terminal---------
+4) cd desarrollo-web-main\Biblioteca-main
+5) ng serve
+
+#Pasos para correr en movil
+1) Tener el Back ejecutandose
+2) Abrir android studio y ejecutar un celular virtual
+3) flutter devices y buscar el emulador del celular
+4) flutter run -d emulador ----  -> Reemplazar ---- por los numeros del emulador
