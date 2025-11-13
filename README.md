@@ -39,7 +39,7 @@ Antes de comenzar asegúrate de tener instalado:
 3) npm install
 4) ng serve
 
-#Pasos para correr el Back
+### Pasos para correr el Back
 1) cd desarrollo-web-main\Biblioteca-main\Backend
 2) npm run seed -> (Cargar los datos a la base de datos)
 3) npm run dev -> (Ejecuta el back)
@@ -47,7 +47,7 @@ Antes de comenzar asegúrate de tener instalado:
 5) cd desarrollo-web-main\Biblioteca-main
 6) ng serve
 
-#Pasos para correr en movil
+### Pasos para correr en movil
 1) Tener el Back ejecutandose
 2) Abrir android studio y ejecutar un celular virtual
 3) flutter devices y buscar el emulador del celular
