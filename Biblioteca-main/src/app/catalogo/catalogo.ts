@@ -128,7 +128,12 @@ Hasta: ${this.fechaHasta}`);
       },
       error: (err) => {
         console.error('Error al crear la reserva', err);
-        alert('❌ Ocurrió un error al registrar la reserva.');
+        const message = err?.message || err?.error?.message || 'Ocurrió un error al registrar la reserva.';
+        alert(`❌ ${message}`);
+        if (err?.error?.message === 'Token no proporcionado' || err?.status === 401) {
+          this.authService.logout();
+          this.router.navigate(['/login']);
+        }
       }
     });
   }

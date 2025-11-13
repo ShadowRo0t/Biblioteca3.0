@@ -6,6 +6,7 @@ import 'screens/register_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/catalogo_screen.dart';
 import 'screens/reservas_screen.dart';
+import 'screens/admin_libros_screen.dart';
 
 void main() {
   runApp(const BibliotecaApp());
@@ -61,6 +62,10 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/reservas',
       builder: (context, state) => const ReservasScreen(),
+    ),
+    GoRoute(
+      path: '/admin/libros',
+      builder: (context, state) => const AdminLibrosScreen(),
     ),
   ],
   redirect: (context, state) async {

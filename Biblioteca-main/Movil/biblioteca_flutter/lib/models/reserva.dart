@@ -3,7 +3,7 @@ import 'libro.dart';
 class Reserva {
   final String id;
   final String userId;
-  final int libroId;
+  final String libroId;
   final String tipo;
   final DateTime desde;
   final DateTime hasta;
@@ -25,16 +25,16 @@ class Reserva {
     return Reserva(
       id: json['_id']?.toString() ?? json['id']?.toString() ?? '',
       userId: json['user_id']?.toString() ?? '',
-      libroId: json['libro_id'] ?? 0,
+      libroId: json['libro_id']?.toString() ?? '',
       tipo: json['tipo'] ?? 'prestamo',
-      desde: json['desde'] != null 
+      desde: json['desde'] != null
           ? DateTime.parse(json['desde'])
           : DateTime.now(),
       hasta: json['hasta'] != null
           ? DateTime.parse(json['hasta'])
           : DateTime.now(),
       estado: json['estado'] ?? 'activa',
-      libro: json['libro'] != null 
+      libro: json['libro'] != null
           ? Libro.fromJson(json['libro'])
           : null,
     );
@@ -49,4 +49,3 @@ class Reserva {
     };
   }
 }
-

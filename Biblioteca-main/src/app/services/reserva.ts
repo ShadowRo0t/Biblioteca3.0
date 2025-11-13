@@ -87,7 +87,8 @@ export class ReservaService {
       }),
       catchError(error => {
         console.error('❌ Error creando reserva:', error);
-        return throwError(() => error.error?.message || 'Error al crear reserva');
+        const message = error?.error?.message || error?.message || 'Error al crear la reserva';
+        return throwError(() => ({ message, error }));
       })
     );
   }

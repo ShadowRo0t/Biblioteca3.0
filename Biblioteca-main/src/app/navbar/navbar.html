@@ -1,36 +1,43 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-success">
-  <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/">
-      <i class="fas fa-book-open"></i> Biblioteca BEC
+<nav class="custom-navbar">
+  <div class="brand" (click)="navigate('/')">
+    <i class="fas fa-book-open"></i>
+    <span>Biblioteca BEC</span>
+  </div>
+
+  <button class="menu-button" type="button" (click)="toggleMenu()" aria-label="Alternar menú">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <div class="menu" [class.open]="menuOpen()">
+    <a routerLink="/" (click)="closeMenus()"><i class="fas fa-home"></i> Inicio</a>
+    <a routerLink="/catalogo" (click)="closeMenus()"><i class="fas fa-book"></i> Catálogo</a>
+    <a *ngIf="authService.isLoggedIn()" routerLink="/prestamos" (click)="closeMenus()">
+      <i class="fas fa-list"></i> Mis reservas
     </a>
+    <a routerLink="/imagenes" (click)="closeMenus()"><i class="fas fa-image"></i> Galería</a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <div class="admin-block" *ngIf="authService.isAdmin()">
+      <button type="button" class="submenu-button" (click)="toggleAdminMenu()">
+        <i class="fas fa-user-shield"></i> Administración
+        <i class="fas" [class.fa-angle-up]="adminMenuOpen()" [class.fa-angle-down]="!adminMenuOpen()"></i>
+      </button>
+      <div class="submenu" [class.open]="adminMenuOpen()">
+        <a routerLink="/admin" (click)="closeMenus()"><i class="fas fa-tachometer-alt"></i> Panel principal</a>
+        <a routerLink="/admin/libros" (click)="closeMenus()"><i class="fas fa-plus-circle"></i> Gestionar libros</a>
+        <a routerLink="/admin/imagenes" (click)="closeMenus()"><i class="fas fa-images"></i> Administrar imágenes</a>
+        <a routerLink="/admin/imagenes/crear" (click)="closeMenus()"><i class="fas fa-upload"></i> Subir imagen</a>
+      </div>
+    </div>
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" routerLink="/"><i class="fas fa-home"></i> Inicio</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/catalogo"><i class="fas fa-book"></i> Catálogo</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/prestamos"><i class="fas fa-list"></i> Mis reservas</a></li>
-        <li class="nav-item" *ngIf="authService.isAdmin()">
-          <a class="nav-link" routerLink="/admin/libros"><i class="fas fa-plus-circle"></i> Gestionar libros</a>
-        </li>
-
-        <!-- 🔒 Aquí controlamos el login -->
-        <li class="nav-item" *ngIf="!authService.isLoggedIn()">
-          <a class="nav-link" routerLink="/login"><i class="fas fa-key"></i> Iniciar sesión</a>
-        </li>
-        <li class="nav-item dropdown" *ngIf="authService.isLoggedIn()">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-            <i class="fas fa-user"></i> Cuenta
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" (click)="logout()">Cerrar sesión</a></li>
-          </ul>
-        </li>
-      </ul>
+    <div class="auth-block">
+      <a *ngIf="!authService.isLoggedIn()" routerLink="/login" (click)="closeMenus()">
+        <i class="fas fa-key"></i> Iniciar sesión
+      </a>
+      <button *ngIf="authService.isLoggedIn()" type="button" class="logout-button" (click)="logout()">
+        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+      </button>
     </div>
   </div>
 </nav>

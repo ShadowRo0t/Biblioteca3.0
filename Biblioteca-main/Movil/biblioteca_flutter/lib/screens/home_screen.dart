@@ -104,6 +104,14 @@ class HomeScreen extends StatelessWidget {
                       color: Colors.green,
                       onTap: () => context.go('/reservas'),
                     ),
+                    if (user?.role == 'admin')
+                      _MenuCard(
+                        icon: Icons.library_books,
+                        title: 'Gestionar libros',
+                        subtitle: 'Crear, editar y eliminar',
+                        color: Colors.orange,
+                        onTap: () => context.go('/admin/libros'),
+                      ),
                   ],
                 ),
               ],

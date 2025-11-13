@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../data/libros_data.dart';
 import '../models/libro.dart';
 import '../services/reserva_service.dart';
+import '../services/libro_service.dart';
 import 'package:intl/intl.dart';
 
 class CatalogoScreen extends StatefulWidget {
@@ -15,15 +15,17 @@ class CatalogoScreen extends StatefulWidget {
 class _CatalogoScreenState extends State<CatalogoScreen> {
   final _searchController = TextEditingController();
   final _reservaService = ReservaService();
+  final _libroService = LibroService();
   List<Libro> _libros = [];
   List<Libro> _filteredLibros = [];
   bool _isLoading = false;
+  bool _isRefreshing = false;
 
   @override
   void initState() {
     super.initState();
-    _loadLibros();
     _searchController.addListener(_filterLibros);
+    _fetchLibros();
   }
 
   @override
@@ -32,10 +34,20 @@ class _CatalogoScreenState extends State<CatalogoScreen> {
     super.dispose();
   }
 
-  void _loadLibros() {
+  Future<void> _fetchLibros() async {
     setState(() {
-      _libros = LibrosData.getLibros();
-      _filteredLibros = _libros;
+      _isLoading = true;
+    });
+
+    final libros = await _libroService.obtenerLibros();
+
+    if (!mounted) return;
+
+    setState(() {
+      _libros = libros;
+      _filteredLibros = libros;
+      _isLoading = false;
+      _isRefreshing = false;
     });
   }
 
@@ -87,6 +99,7 @@ class _CatalogoScreenState extends State<CatalogoScreen> {
           backgroundColor: Colors.green,
         ),
       );
+      await _fetchLibros();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -103,49 +116,56 @@ class _CatalogoScreenState extends State<CatalogoScreen> {
       appBar: AppBar(
         title: const Text('Catálogo de Libros'),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                hintText: 'Buscar libros...',
-                prefixIcon: const Icon(Icons.search),
-                suffixIcon: _searchController.text.isNotEmpty
-                    ? IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: () {
-                          _searchController.clear();
-                        },
-                      )
-                    : null,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          setState(() => _isRefreshing = true);
+          await _fetchLibros();
+        },
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextField(
+                controller: _searchController,
+                decoration: InputDecoration(
+                  hintText: 'Buscar libros...',
+                  prefixIcon: const Icon(Icons.search),
+                  suffixIcon: _searchController.text.isNotEmpty
+                      ? IconButton(
+                          icon: const Icon(Icons.clear),
+                          onPressed: () {
+                            _searchController.clear();
+                          },
+                        )
+                      : null,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               ),
             ),
-          ),
-          Expanded(
-            child: _isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : _filteredLibros.isEmpty
-                    ? const Center(
-                        child: Text('No se encontraron libros'),
-                      )
-                    : ListView.builder(
-                        padding: const EdgeInsets.all(16.0),
-                        itemCount: _filteredLibros.length,
-                        itemBuilder: (context, index) {
-                          final libro = _filteredLibros[index];
-                          return _LibroCard(
-                            libro: libro,
-                            onReservar: () => _crearReserva(libro),
-                          );
-                        },
-                      ),
-          ),
-        ],
+            Expanded(
+              child: _isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : _filteredLibros.isEmpty
+                      ? const Center(
+                          child: Text('No se encontraron libros'),
+                        )
+                      : ListView.builder(
+                          padding: const EdgeInsets.all(16.0),
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          itemCount: _filteredLibros.length,
+                          itemBuilder: (context, index) {
+                            final libro = _filteredLibros[index];
+                            return _LibroCard(
+                              libro: libro,
+                              onReservar: () => _crearReserva(libro),
+                            );
+                          },
+                        ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -241,6 +261,14 @@ class _LibroCard extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
                         ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Chip(
+                      backgroundColor: Colors.grey[200],
+                      label: Text(
+                        'Disponibles: ${libro.copiasDisponibles}/${libro.copiasTotales}',
+                        style: const TextStyle(fontSize: 12),
                       ),
                     ),
                   ],

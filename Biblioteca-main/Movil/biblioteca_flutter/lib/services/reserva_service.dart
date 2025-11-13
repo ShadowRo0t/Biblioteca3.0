@@ -22,7 +22,7 @@ class ReservaService {
   }
 
   Future<bool> crearReserva({
-    required int libroId,
+    required String libroId,
     required DateTime desde,
     required DateTime hasta,
     String tipo = 'prestamo',
@@ -45,7 +45,7 @@ class ReservaService {
   }
 
   Future<String?> getCrearReservaError({
-    required int libroId,
+    required String libroId,
     required DateTime desde,
     required DateTime hasta,
     String tipo = 'prestamo',
