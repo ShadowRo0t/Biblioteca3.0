@@ -26,14 +26,24 @@ const reservaSchema = new mongoose.Schema({
   },
   estado: {
     type: String,
-    enum: ['activa', 'finalizada', 'cancelada'],
+    enum: ['activa', 'finalizada', 'cancelada', 'vencida'],
     default: 'activa'
+  },
+  fecha_devolucion_real: {
+    type: Date
+  },
+  multa: {
+    type: Number, // Días de sanción
+    default: 0
+  },
+  comprobante_id: {
+    type: String
   }
 }, {
   timestamps: true
 });
 
-reservaSchema.pre('save', function(next) {
+reservaSchema.pre('save', function (next) {
   if (this.hasta <= this.desde) {
     next(new Error('La fecha de fin debe ser posterior a la fecha de inicio'));
   }

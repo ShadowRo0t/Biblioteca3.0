@@ -13,18 +13,19 @@ class AuthService {
       {'email': email, 'password': password},
     );
 
-    print('🔐 Respuesta del login: $response'); // Debug
+    print(' Respuesta del login: $response'); // Debug
 
     if (response['success'] == true) {
       final data = response['data'];
-      print('📦 Datos recibidos: $data'); // Debug
-      
+      print(' Datos recibidos: $data'); // Debug
+
       // El backend puede devolver token y user directamente o dentro de un objeto
       final token = data['token'];
-      final userData = data['user'] ?? data; // Si no hay 'user', usar data directamente
-      
+      final userData =
+          data['user'] ?? data; // Si no hay 'user', usar data directamente
+
       if (token == null) {
-        print('❌ Token no encontrado en la respuesta');
+        print(' Token no encontrado en la respuesta');
         return false;
       }
 
@@ -32,15 +33,15 @@ class AuthService {
         final user = User.fromJson(userData);
         await _saveToken(token);
         await _saveUser(user);
-        print('✅ Token y usuario guardados correctamente');
+        print(' Token y usuario guardados correctamente');
         return true;
       } catch (e) {
-        print('❌ Error al guardar usuario: $e');
+        print(' Error al guardar usuario: $e');
         return false;
       }
     }
 
-    print('❌ Login fallido: ${response['message']}');
+    print(' Login fallido: ${response['message']}');
     return false;
   }
 
@@ -95,12 +96,12 @@ class AuthService {
     try {
       final prefs = await SharedPreferences.getInstance();
       final saved = await prefs.setString(_tokenKey, token);
-      print('💾 Token guardado: $saved');
+      print(' Token guardado: $saved');
       // Verificar que se guardó
-      final verify = await prefs.getString(_tokenKey);
-      print('✅ Token verificado: ${verify != null ? "Sí" : "No"}');
+      final verify = prefs.getString(_tokenKey);
+      print(' Token verificado: ${verify != null ? "Sí" : "No"}');
     } catch (e) {
-      print('❌ Error guardando token: $e');
+      print(' Error guardando token: $e');
     }
   }
 
@@ -108,9 +109,9 @@ class AuthService {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(_userKey, jsonEncode(user.toJson()));
-      print('💾 Usuario guardado: ${user.name}');
+      print(' Usuario guardado: ${user.name}');
     } catch (e) {
-      print('❌ Error guardando usuario: $e');
+      print(' Error guardando usuario: $e');
     }
   }
 
@@ -131,7 +132,8 @@ class AuthService {
   Future<bool> isLoggedIn() async {
     final token = await getToken();
     final isLogged = token != null && token.isNotEmpty;
-    print('🔐 isLoggedIn check: $isLogged (token: ${token != null ? "presente" : "ausente"})');
+    print(
+        ' isLoggedIn check: $isLogged (token: ${token != null ? "presente" : "ausente"})');
     return isLogged;
   }
 
@@ -141,4 +143,3 @@ class AuthService {
     await prefs.remove(_userKey);
   }
 }
-

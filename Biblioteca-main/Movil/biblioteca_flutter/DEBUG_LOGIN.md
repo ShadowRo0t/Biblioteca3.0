@@ -1,4 +1,4 @@
-# 🐛 Debug: Problema de Navegación después del Login
+#  Debug: Problema de Navegación después del Login
 
 ## Problema
 Después de hacer login exitoso, la aplicación no navega a `/home` y se queda en la pantalla de login.
@@ -8,17 +8,17 @@ Después de hacer login exitoso, la aplicación no navega a `/home` y se queda e
 Cuando ejecutes la aplicación y hagas login, revisa la **consola del navegador** (F12 → Console) y busca estos mensajes:
 
 ### 1. Durante el Login
-- `🔐 Respuesta del login:` - Debe mostrar `{success: true, data: {...}}`
-- `📦 Datos recibidos:` - Debe mostrar el objeto con `token` y `user`
-- `💾 Token guardado:` - Debe mostrar `true`
-- `✅ Token verificado:` - Debe mostrar `Sí`
-- `🔑 Token guardado:` - Debe mostrar `Sí`
-- `🔑 Token verificado después del delay:` - Debe mostrar `Sí`
-- `➡️ Navegando a /home` - Debe aparecer
+- ` Respuesta del login:` - Debe mostrar `{success: true, data: {...}}`
+- ` Datos recibidos:` - Debe mostrar el objeto con `token` y `user`
+- ` Token guardado:` - Debe mostrar `true`
+- ` Token verificado:` - Debe mostrar `Sí`
+- ` Token guardado:` - Debe mostrar `Sí`
+- ` Token verificado después del delay:` - Debe mostrar `Sí`
+- ` Navegando a /home` - Debe aparecer
 
 ### 2. Durante el Redirect
-- `🔍 Redirect check - isLoggedIn:` - Debe mostrar `true` después del login
-- `✅ Sin redirección necesaria` o `➡️ Redirigiendo a /home`
+- ` Redirect check - isLoggedIn:` - Debe mostrar `true` después del login
+- ` Sin redirección necesaria` o ` Redirigiendo a /home`
 
 ## Posibles Causas
 

@@ -1,31 +1,31 @@
-# 🔧 Solución al Error de CORS en Flutter Web
+#  Solución al Error de CORS en Flutter Web
 
-## ❌ Error que estás viendo
+##  Error que estás viendo
 
 ```
 Error de conexión: ClientException: Failed to fetch, uri=http://127.0.0.1:8000/api/auth/login
 ```
 
-## ✅ Soluciones Aplicadas
+##  Soluciones Aplicadas
 
 ### 1. **Actualización del Backend (CORS)**
 
 He actualizado el archivo `Backend/server.js` para permitir múltiples orígenes:
 
-- ✅ `http://localhost:4200` (Angular)
-- ✅ `http://localhost:3000` (React)
-- ✅ `http://localhost:8080` (Flutter Web común)
-- ✅ `http://localhost:5000` (Flutter Web alternativo)
-- ✅ Y sus variantes con `127.0.0.1`
+-  `http://localhost:4200` (Angular)
+-  `http://localhost:3000` (React)
+-  `http://localhost:8080` (Flutter Web común)
+-  `http://localhost:5000` (Flutter Web alternativo)
+-  Y sus variantes con `127.0.0.1`
 
 ### 2. **Actualización del Servicio API en Flutter**
 
 He actualizado `lib/services/api_service.dart` para:
-- ✅ Usar `localhost` en lugar de `127.0.0.1` cuando se ejecuta en web
-- ✅ Detectar automáticamente si está en web o móvil
-- ✅ Mostrar mensajes de error más claros
+-  Usar `localhost` en lugar de `127.0.0.1` cuando se ejecuta en web
+-  Detectar automáticamente si está en web o móvil
+-  Mostrar mensajes de error más claros
 
-## 🚀 Pasos para Solucionar
+##  Pasos para Solucionar
 
 ### Paso 1: Reiniciar el Backend
 
@@ -57,13 +57,13 @@ flutter run
 ```
 Y selecciona Chrome cuando te pregunte.
 
-## 🔍 Verificación
+##  Verificación
 
 1. **Abre la consola del navegador** (F12)
 2. **Intenta hacer login**
 3. **Verifica que no haya errores de CORS** en la consola
 
-## 🐛 Si Aún Tienes Problemas
+##  Si Aún Tienes Problemas
 
 ### Opción 1: Verificar el Puerto de Flutter Web
 
@@ -93,7 +93,7 @@ app.use(cors({
 }));
 ```
 
-**⚠️ ADVERTENCIA**: Solo usa esto en desarrollo, nunca en producción.
+** ADVERTENCIA**: Solo usa esto en desarrollo, nunca en producción.
 
 ### Opción 3: Verificar que el Backend Acepte Conexiones
 
@@ -105,21 +105,21 @@ app.listen(PORT, '0.0.0.0', () => {
 });
 ```
 
-## 📝 Cambios Realizados
+##  Cambios Realizados
 
-1. ✅ **Backend**: Configuración CORS actualizada para múltiples orígenes
-2. ✅ **Flutter**: Detección automática de plataforma (web vs móvil)
-3. ✅ **Flutter**: Uso de `localhost` en web (mejor para CORS)
-4. ✅ **Flutter**: Mensajes de error mejorados
+1.  **Backend**: Configuración CORS actualizada para múltiples orígenes
+2.  **Flutter**: Detección automática de plataforma (web vs móvil)
+3.  **Flutter**: Uso de `localhost` en web (mejor para CORS)
+4.  **Flutter**: Mensajes de error mejorados
 
-## ✅ Resultado Esperado
+##  Resultado Esperado
 
 Después de reiniciar el backend, deberías poder:
-- ✅ Hacer login sin errores de CORS
-- ✅ Registrar nuevos usuarios
-- ✅ Ver el catálogo
-- ✅ Crear reservas
-- ✅ Ver tus reservas
+-  Hacer login sin errores de CORS
+-  Registrar nuevos usuarios
+-  Ver el catálogo
+-  Crear reservas
+-  Ver tus reservas
 
-¡Prueba ahora y debería funcionar! 🎉
+¡Prueba ahora y debería funcionar! 
 

@@ -23,8 +23,36 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['user', 'admin'],
+    enum: ['user', 'admin', 'bibliotecario'],
     default: 'user'
+  },
+  rut: {
+    type: String,
+    trim: true
+  },
+  address: {
+    type: String,
+    trim: true
+  },
+  phone: {
+    type: String,
+    trim: true
+  },
+  fingerprint: {
+    type: String, // Hash or reference to fingerprint data
+    select: false
+  },
+  photo: {
+    type: String, // URL to photo
+    default: ''
+  },
+  isActive: {
+    type: Boolean,
+    default: false
+  },
+  activationToken: {
+    type: String,
+    select: false
   }
 }, {
   timestamps: true

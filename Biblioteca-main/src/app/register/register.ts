@@ -19,7 +19,10 @@ export class RegisterComponent {
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]]
+      confirmPassword: ['', [Validators.required]],
+      rut: ['', [Validators.required]],
+      address: ['', [Validators.required]],
+      phone: ['', [Validators.required]]
     }, { validators: this.passwordMatchValidator });
   }
 
@@ -32,8 +35,8 @@ export class RegisterComponent {
   onSubmit() {
     if (this.form.invalid) return;
 
-    const { name, email, password } = this.form.value;
-    this.authService.register({ name, email, password }).subscribe({
+    const { name, email, password, rut, address, phone } = this.form.value;
+    this.authService.register({ name, email, password, rut, address, phone }).subscribe({
       next: () => {
         alert(' Cuenta creada con éxito');
         this.router.navigate(['/login']);

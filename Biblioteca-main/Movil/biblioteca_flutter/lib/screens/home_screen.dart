@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../services/auth_service.dart';
+import '../widgets/custom_drawer.dart';
+import '../widgets/notification_bell.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -11,18 +13,16 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Biblioteca BEC'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () async {
-              final authService = AuthService();
-              await authService.logout();
-              if (context.mounted) {
-                context.go('/login');
-              }
-            },
+          const NotificationBell(),
+          Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () => Scaffold.of(context).openEndDrawer(),
+            ),
           ),
         ],
       ),
+      endDrawer: const CustomDrawer(),
       body: FutureBuilder(
         future: AuthService().getUser(),
         builder: (context, snapshot) {
@@ -95,14 +95,14 @@ class HomeScreen extends StatelessWidget {
                       title: 'Catálogo',
                       subtitle: 'Explorar libros',
                       color: Colors.blue,
-                      onTap: () => context.go('/catalogo'),
+                      onTap: () => context.push('/catalogo'),
                     ),
                     _MenuCard(
                       icon: Icons.list,
                       title: 'Mis Reservas',
                       subtitle: 'Ver mis préstamos',
                       color: Colors.green,
-                      onTap: () => context.go('/reservas'),
+                      onTap: () => context.push('/reservas'),
                     ),
                     if (user?.role == 'admin')
                       _MenuCard(
@@ -110,7 +110,7 @@ class HomeScreen extends StatelessWidget {
                         title: 'Gestionar libros',
                         subtitle: 'Crear, editar y eliminar',
                         color: Colors.orange,
-                        onTap: () => context.go('/admin/libros'),
+                        onTap: () => context.push('/admin/libros'),
                       ),
                   ],
                 ),
@@ -183,4 +183,3 @@ class _MenuCard extends StatelessWidget {
     );
   }
 }
-

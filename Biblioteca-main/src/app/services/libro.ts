@@ -12,10 +12,14 @@ export interface Libro {
   genero: string;
   descripcion: string;
   anio_edicion: string;
-  imagen: string;
-  disponibilidad: 'Disponible' | 'Agotado' | 'Prestado';
+  tipo?: string;
+  editorial?: string;
+  ubicacion?: string;
+  imagen?: string;
+  disponibilidad?: string;
   copias_totales: number;
   copias_disponibles: number;
+  prestados_sala?: number;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -26,6 +30,9 @@ export interface CrearLibroPayload {
   genero: string;
   descripcion: string;
   anio_edicion: string;
+  tipo?: string;
+  editorial?: string;
+  ubicacion?: string;
   imagen?: string;
   copias_totales?: number;
   copias_disponibles?: number;
@@ -52,7 +59,7 @@ export class LibroService {
   constructor(
     private http: HttpClient,
     private authService: AuthService
-  ) {}
+  ) { }
 
   getLibros(): Observable<Libro[]> {
     return this.http.get<Libro[]>(`${this.apiUrl}/libros`).pipe(

@@ -1,8 +1,8 @@
-# 📱 Cómo Emular Vista Móvil en el Navegador
+#  Cómo Emular Vista Móvil en el Navegador
 
 Esta guía te mostrará cómo ver la aplicación React como si estuviera en un dispositivo móvil usando las herramientas de desarrollador del navegador.
 
-## 🎯 Método 1: Herramientas de Desarrollador (Recomendado)
+##  Método 1: Herramientas de Desarrollador (Recomendado)
 
 ### En Google Chrome / Microsoft Edge
 
@@ -18,7 +18,7 @@ Esta guía te mostrará cómo ver la aplicación React como si estuviera en un d
 3. **Activa el modo dispositivo**:
    - Presiona `Ctrl + Shift + M` (Windows/Linux)
    - O `Cmd + Shift + M` (Mac)
-   - O haz clic en el ícono de dispositivo móvil (📱) en la barra de herramientas
+   - O haz clic en el ícono de dispositivo móvil () en la barra de herramientas
 
 4. **Selecciona un dispositivo**:
    - En la parte superior, verás un menú desplegable
@@ -59,7 +59,7 @@ Esta guía te mostrará cómo ver la aplicación React como si estuviera en un d
    - Desarrollo → Entrar en modo de diseño responsivo
    - O `Cmd + Option + R`
 
-## 🎨 Método 2: Forzar Vista Móvil con CSS (Opcional)
+##  Método 2: Forzar Vista Móvil con CSS (Opcional)
 
 Si quieres que la aplicación siempre se vea como un móvil incluso en pantallas grandes, puedes descomentar el código en `App.css`:
 
@@ -83,7 +83,7 @@ body {
 }
 ```
 
-## 📐 Tamaños de Dispositivos Comunes
+##  Tamaños de Dispositivos Comunes
 
 | Dispositivo | Ancho | Alto |
 |------------|-------|------|
@@ -95,18 +95,18 @@ body {
 | iPad | 768px | 1024px |
 | iPad Pro | 1024px | 1366px |
 
-## 🔧 Características del Modo Móvil en DevTools
+##  Características del Modo Móvil en DevTools
 
 Cuando activas el modo dispositivo, puedes:
 
-- ✅ **Simular diferentes dispositivos** y sus dimensiones
-- ✅ **Cambiar la orientación** (vertical/horizontal)
-- ✅ **Simular conexiones lentas** (3G, 4G, etc.)
-- ✅ **Ver el viewport** en tiempo real
-- ✅ **Probar touch events** (si tu navegador lo soporta)
-- ✅ **Ver el zoom** y comportamiento táctil
+-  **Simular diferentes dispositivos** y sus dimensiones
+-  **Cambiar la orientación** (vertical/horizontal)
+-  **Simular conexiones lentas** (3G, 4G, etc.)
+-  **Ver el viewport** en tiempo real
+-  **Probar touch events** (si tu navegador lo soporta)
+-  **Ver el zoom** y comportamiento táctil
 
-## 🚀 Pasos Rápidos (Resumen)
+##  Pasos Rápidos (Resumen)
 
 1. Ejecuta `npm start`
 2. Abre `http://localhost:3000`
@@ -115,14 +115,14 @@ Cuando activas el modo dispositivo, puedes:
 5. Selecciona un dispositivo del menú
 6. ¡Listo! La app se verá como en un móvil
 
-## 💡 Consejos
+##  Consejos
 
 - **Actualiza la página** después de cambiar el tamaño del dispositivo
 - **Prueba diferentes dispositivos** para ver cómo se adapta
 - **Usa la barra de herramientas** para rotar, cambiar zoom, etc.
 - **Prueba en diferentes navegadores** para verificar compatibilidad
 
-## 📱 Probar en un Dispositivo Real
+##  Probar en un Dispositivo Real
 
 Si quieres probar en un dispositivo móvil real:
 
@@ -152,7 +152,7 @@ Si quieres probar en un dispositivo móvil real:
    ```
    Ejemplo: `http://192.168.1.100:3000`
 
-## 🎯 Atajos de Teclado Útiles
+##  Atajos de Teclado Útiles
 
 | Acción | Windows/Linux | Mac |
 |--------|---------------|-----|
@@ -161,5 +161,5 @@ Si quieres probar en un dispositivo móvil real:
 | Cerrar DevTools | `F12` o `Ctrl + Shift + I` | `Cmd + Option + I` |
 | Actualizar | `F5` o `Ctrl + R` | `Cmd + R` |
 
-¡Ahora puedes probar tu aplicación como si estuviera en un móvil! 📱✨
+¡Ahora puedes probar tu aplicación como si estuviera en un móvil! 
 

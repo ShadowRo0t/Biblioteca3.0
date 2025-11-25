@@ -1,4 +1,5 @@
 import 'libro.dart';
+import 'user.dart';
 
 class Reserva {
   final String id;
@@ -9,6 +10,7 @@ class Reserva {
   final DateTime hasta;
   final String estado;
   final Libro? libro;
+  final User? user;
 
   Reserva({
     required this.id,
@@ -19,6 +21,7 @@ class Reserva {
     required this.hasta,
     required this.estado,
     this.libro,
+    this.user,
   });
 
   factory Reserva.fromJson(Map<String, dynamic> json) {
@@ -34,9 +37,10 @@ class Reserva {
           ? DateTime.parse(json['hasta'])
           : DateTime.now(),
       estado: json['estado'] ?? 'activa',
-      libro: json['libro'] != null
-          ? Libro.fromJson(json['libro'])
-          : null,
+      libro: json['libro_id'] is Map
+          ? Libro.fromJson(json['libro_id'])
+          : (json['libro'] != null ? Libro.fromJson(json['libro']) : null),
+      user: json['user_id'] is Map ? User.fromJson(json['user_id']) : null,
     );
   }
 

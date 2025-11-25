@@ -7,6 +7,7 @@ import 'screens/home_screen.dart';
 import 'screens/catalogo_screen.dart';
 import 'screens/reservas_screen.dart';
 import 'screens/admin_libros_screen.dart';
+import 'screens/admin_prestamos_screen.dart';
 
 void main() {
   runApp(const BibliotecaApp());
@@ -67,31 +68,34 @@ final GoRouter _router = GoRouter(
       path: '/admin/libros',
       builder: (context, state) => const AdminLibrosScreen(),
     ),
+    GoRoute(
+      path: '/admin/prestamos',
+      builder: (context, state) => const AdminPrestamosScreen(),
+    ),
   ],
   redirect: (context, state) async {
     final authService = AuthService();
     final isLoggedIn = await authService.isLoggedIn();
     final currentPath = state.matchedLocation;
     final isLoginPage = currentPath == '/login' || currentPath == '/register';
-    
+
     // Debug
-    print('🔍 Redirect check - isLoggedIn: $isLoggedIn, path: $currentPath');
-    
+    print(' Redirect check - isLoggedIn: $isLoggedIn, path: $currentPath');
+
     // Si no está logueado y no está en login/register, redirigir a login
     if (!isLoggedIn && !isLoginPage) {
-      print('➡️ Redirigiendo a /login (no autenticado)');
+      print(' Redirigiendo a /login (no autenticado)');
       return '/login';
     }
-    
+
     // Si está logueado y está en login/register, redirigir a home
     if (isLoggedIn && isLoginPage) {
-      print('➡️ Redirigiendo a /home (ya autenticado)');
+      print(' Redirigiendo a /home (ya autenticado)');
       return '/home';
     }
-    
-    print('✅ Sin redirección necesaria');
+
+    print(' Sin redirección necesaria');
     return null;
   },
   refreshListenable: null, // No usar refreshListenable por ahora
 );
-

@@ -32,9 +32,9 @@ export class AdminCrearImagenComponent {
     this.subiendo = true;
     this.imagenSrv.uploadImagen(this.titulo, this.userId, this.file).subscribe({
       next: () => {
-        // ✅ Mensaje exigido por la guía
+        //  Mensaje exigido por la guía
         console.log('La imagen ha sido agregada correctamente');
-        // ✅ Volver al administrador de imágenes
+        //  Volver al administrador de imágenes
         this.router.navigate(['/admin/imagenes']);
       },
       error: (err: HttpErrorResponse) => {

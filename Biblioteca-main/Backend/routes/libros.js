@@ -20,6 +20,9 @@ const validarLibroBase = [
   body('genero').trim().notEmpty().withMessage('El género es obligatorio'),
   body('descripcion').trim().notEmpty().withMessage('La descripción es obligatoria'),
   body('anio_edicion').trim().notEmpty().withMessage('El año de edición es obligatorio'),
+  body('tipo').trim().notEmpty().withMessage('El tipo es obligatorio'),
+  body('editorial').optional().trim(),
+  body('ubicacion').optional().trim(),
   body('imagen').optional().isString().withMessage('La imagen debe ser una URL válida'),
   body('copias_totales')
     .optional()
@@ -38,7 +41,22 @@ const validarLibroBase = [
 router.get('/libros', async (_req, res) => {
   try {
     const libros = await Libro.find().sort({ createdAt: -1 });
-    res.json(libros);
+
+    // Calculate 'prestados_sala' for each book
+    const librosConInfo = await Promise.all(libros.map(async (libro) => {
+      const prestadosSala = await Reserva.countDocuments({
+        libro_id: libro._id,
+        tipo: 'sala',
+        estado: 'activa'
+      });
+
+      return {
+        ...libro.toObject(),
+        prestados_sala: prestadosSala
+      };
+    }));
+
+    res.json(librosConInfo);
   } catch (error) {
     console.error('Error obteniendo libros:', error);
     res.status(500).json({ message: 'Error al obtener libros', error: error.message });
@@ -63,6 +81,9 @@ router.post(
         genero,
         descripcion,
         anio_edicion,
+        tipo,
+        editorial,
+        ubicacion,
         imagen,
         disponibilidad,
         copias_totales = 1,
@@ -75,6 +96,9 @@ router.post(
         genero,
         descripcion,
         anio_edicion,
+        tipo,
+        editorial,
+        ubicacion,
         imagen,
         disponibilidad: disponibilidad || 'Disponible',
         copias_totales,

@@ -22,14 +22,14 @@ export class MisReservas implements OnInit, OnDestroy {
   constructor(private reservaService: ReservaService) {}
 
   ngOnInit() {
-    // ✅ Cargar reservas al iniciar
+    //  Cargar reservas al iniciar
     this.cargarReservas();
 
-    // ✅ Observar cambios en la lista de reservas en tiempo real
+    //  Observar cambios en la lista de reservas en tiempo real
     this.reservaService.getReservasObservable()
       .pipe(takeUntil(this.destroy$))
       .subscribe(reservas => {
-        console.log('🔄 Reservas actualizadas:', reservas);
+        console.log(' Reservas actualizadas:', reservas);
         this.reservas = reservas;
       });
   }
@@ -42,7 +42,7 @@ export class MisReservas implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
-          console.log('✅ Reservas cargadas:', response);
+          console.log(' Reservas cargadas:', response);
           // El backend devuelve un array directamente, normalizar la respuesta
           const reservasArray = Array.isArray(response) 
             ? response 
@@ -51,7 +51,7 @@ export class MisReservas implements OnInit, OnDestroy {
           this.loading = false;
         },
         error: (error) => {
-          console.error('❌ Error cargando reservas:', error);
+          console.error(' Error cargando reservas:', error);
           this.error = 'Error al cargar reservas';
           this.loading = false;
         }
@@ -64,11 +64,11 @@ export class MisReservas implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
-            console.log('✅ Reserva eliminada');
+            console.log(' Reserva eliminada');
             this.cargarReservas(); // Recargar lista
           },
           error: (error) => {
-            console.error('❌ Error:', error);
+            console.error(' Error:', error);
             this.error = error;
           }
         });

@@ -25,6 +25,9 @@ export class AdminLibrosComponent implements OnInit {
     genero: ['', [Validators.required, Validators.maxLength(120)]],
     descripcion: ['', [Validators.required, Validators.maxLength(600)]],
     anio_edicion: ['', [Validators.required, Validators.maxLength(10)]],
+    tipo: ['libro', [Validators.required]],
+    editorial: ['', [Validators.maxLength(150)]],
+    ubicacion: ['', [Validators.maxLength(150)]],
     imagen: [''],
     copias_totales: [1, [Validators.required, Validators.min(0)]],
   });
@@ -36,7 +39,7 @@ export class AdminLibrosComponent implements OnInit {
 
   constructor(
     private libroService: LibroService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.cargarLibros();
@@ -70,6 +73,9 @@ export class AdminLibrosComponent implements OnInit {
       genero: this.crearLibroForm.value.genero?.trim() || '',
       descripcion: this.crearLibroForm.value.descripcion?.trim() || '',
       anio_edicion: this.crearLibroForm.value.anio_edicion?.trim() || '',
+      tipo: this.crearLibroForm.value.tipo || 'libro',
+      editorial: this.crearLibroForm.value.editorial?.trim() || '',
+      ubicacion: this.crearLibroForm.value.ubicacion?.trim() || '',
       imagen: this.crearLibroForm.value.imagen?.trim() || undefined,
       copias_totales: this.crearLibroForm.value.copias_totales ?? 1,
       copias_disponibles: this.crearLibroForm.value.copias_totales ?? 1,
@@ -89,6 +95,9 @@ export class AdminLibrosComponent implements OnInit {
           genero: '',
           descripcion: '',
           anio_edicion: '',
+          tipo: 'libro',
+          editorial: '',
+          ubicacion: '',
           imagen: '',
           copias_totales: 1,
         });

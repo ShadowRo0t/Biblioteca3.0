@@ -1,6 +1,6 @@
-# 🚀 Instrucciones Rápidas - App Flutter
+#  Instrucciones Rápidas - App Flutter
 
-## ⚡ Inicio Rápido
+##  Inicio Rápido
 
 ### 1. Instalar Flutter
 - Descarga desde: https://flutter.dev/docs/get-started/install
@@ -24,7 +24,7 @@ flutter pub get
 flutter run
 ```
 
-## 📱 Para Probar en Dispositivo Físico
+##  Para Probar en Dispositivo Físico
 
 1. **Conecta tu dispositivo** por USB
 2. **Habilita depuración USB** en el dispositivo
@@ -49,25 +49,25 @@ flutter run
    static const String baseUrl = 'http://TU_IP:8000/api';
    ```
 
-## ✅ Estructura Creada
+##  Estructura Creada
 
-- ✅ Modelos (User, Libro, Reserva)
-- ✅ Servicios (API, Auth, Reserva)
-- ✅ Pantallas (Login, Register, Home, Catálogo, Reservas)
-- ✅ Navegación con GoRouter
-- ✅ Almacenamiento local
-- ✅ Diseño móvil nativo
+-  Modelos (User, Libro, Reserva)
+-  Servicios (API, Auth, Reserva)
+-  Pantallas (Login, Register, Home, Catálogo, Reservas)
+-  Navegación con GoRouter
+-  Almacenamiento local
+-  Diseño móvil nativo
 
-## 🎯 Funcionalidades Implementadas
+##  Funcionalidades Implementadas
 
-- ✅ Login y registro
-- ✅ Catálogo de libros con búsqueda
-- ✅ Crear reservas
-- ✅ Ver mis reservas
-- ✅ Cancelar reservas
-- ✅ Validación de formularios
-- ✅ Manejo de errores
-- ✅ Diseño responsive
+-  Login y registro
+-  Catálogo de libros con búsqueda
+-  Crear reservas
+-  Ver mis reservas
+-  Cancelar reservas
+-  Validación de formularios
+-  Manejo de errores
+-  Diseño responsive
 
-¡La aplicación está lista para ejecutarse! 🎉
+¡La aplicación está lista para ejecutarse! 
 

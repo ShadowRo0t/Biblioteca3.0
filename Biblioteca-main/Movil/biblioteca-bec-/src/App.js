@@ -94,7 +94,7 @@ function App() {
       const data = await response.json();
 
       if (response.ok) {
-        alert('✅ Cuenta creada exitosamente. Ahora inicia sesión');
+        alert(' Cuenta creada exitosamente. Ahora inicia sesión');
         setScreen('login');
         setName('');
         setPassword('');
@@ -239,7 +239,7 @@ function App() {
       const data = await response.json();
 
       if (response.ok) {
-        alert(`✅ Reserva creada para "${libroTitulo}" (7 días)`);
+        alert(` Reserva creada para "${libroTitulo}" (7 días)`);
         loadReservas();
       } else {
         alert(data.message || 'Error al crear reserva');
@@ -269,7 +269,7 @@ function App() {
       });
 
       if (response.ok) {
-        alert('✅ Reserva cancelada');
+        alert(' Reserva cancelada');
         loadReservas();
       } else {
         alert('No se pudo cancelar la reserva');
@@ -296,7 +296,7 @@ function App() {
     <div className="auth-container">
       <div className="auth-card">
         <div className="auth-header">
-          <h1>📚 Biblioteca BEC</h1>
+          <h1> Biblioteca BEC</h1>
           <p>Iniciar Sesión</p>
         </div>
         <form onSubmit={handleLogin} className="auth-form">
@@ -328,7 +328,7 @@ function App() {
           </button>
         </form>
         <div className="test-users">
-          <p><strong>👤 Usuarios de prueba:</strong></p>
+          <p><strong> Usuarios de prueba:</strong></p>
           <p>usuario@test.com / usuario123</p>
           <p>admin@biblioteca.com / admin123</p>
         </div>
@@ -341,7 +341,7 @@ function App() {
     <div className="auth-container">
       <div className="auth-card">
         <div className="auth-header">
-          <h1>📚 Biblioteca BEC</h1>
+          <h1> Biblioteca BEC</h1>
           <p>Crear Cuenta</p>
         </div>
         <form onSubmit={handleRegister} className="auth-form">
@@ -389,7 +389,7 @@ function App() {
   const HomeScreen = () => (
     <div className="container">
       <div className="header">
-        <h1>📚 Biblioteca BEC</h1>
+        <h1> Biblioteca BEC</h1>
         <div className="user-info">
           <span>¡Hola, {user?.name}!</span>
           <button onClick={handleLogout} className="button logout">Cerrar Sesión</button>
@@ -397,12 +397,12 @@ function App() {
       </div>
       <div className="menu-grid">
         <div className="menu-card" onClick={loadLibros}>
-          <div className="menu-icon">📖</div>
+          <div className="menu-icon"></div>
           <h3>Catálogo</h3>
           <p>Explorar libros disponibles</p>
         </div>
         <div className="menu-card" onClick={loadReservas}>
-          <div className="menu-icon">📋</div>
+          <div className="menu-icon"></div>
           <h3>Mis Reservas</h3>
           <p>Ver mis préstamos activos</p>
         </div>
@@ -415,7 +415,7 @@ function App() {
     <div className="container">
       <div className="header">
         <button onClick={() => setScreen('home')} className="button back">← Volver</button>
-        <h2>📖 Catálogo de Libros</h2>
+        <h2> Catálogo de Libros</h2>
       </div>
       <div className="search-bar">
         <input
@@ -458,7 +458,7 @@ function App() {
     <div className="container">
       <div className="header">
         <button onClick={() => setScreen('home')} className="button back">← Volver</button>
-        <h2>📋 Mis Reservas</h2>
+        <h2> Mis Reservas</h2>
       </div>
       {reservas.length === 0 ? (
         <div className="empty-state">
@@ -473,8 +473,8 @@ function App() {
             <div key={reserva._id} className="reserva-card">
               <div className="reserva-info">
                 <h3>{reserva.libro?.titulo || 'Libro no encontrado'}</h3>
-                <p>📅 Desde: {new Date(reserva.desde).toLocaleDateString()}</p>
-                <p>📅 Hasta: {new Date(reserva.hasta).toLocaleDateString()}</p>
+                <p> Desde: {new Date(reserva.desde).toLocaleDateString()}</p>
+                <p> Hasta: {new Date(reserva.hasta).toLocaleDateString()}</p>
                 <p className="reserva-tipo">Tipo: {reserva.tipo}</p>
               </div>
               <button

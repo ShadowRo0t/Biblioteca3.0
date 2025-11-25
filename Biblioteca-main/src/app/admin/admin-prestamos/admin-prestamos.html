@@ -1,0 +1,142 @@
+<div class="container mt-4">
+    <h2>Gestión de Préstamos y Devoluciones</h2>
+
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item">
+            <a class="nav-link" [class.active]="activeTab === 'solicitudes'" (click)="setTab('solicitudes')"
+                href="javascript:void(0)">Préstamos Activos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [class.active]="activeTab === 'vencidos'" (click)="setTab('vencidos')"
+                href="javascript:void(0)">Vencidos / Mora</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [class.active]="activeTab === 'devolucion'" (click)="setTab('devolucion')"
+                href="javascript:void(0)">Registrar Devolución</a>
+        </li>
+    </ul>
+
+    <!-- SPINNER -->
+    <div *ngIf="isLoading()" class="text-center my-3">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+    </div>
+
+    <!-- TAB SOLICITUDES -->
+    <div *ngIf="activeTab === 'solicitudes' && !isLoading()">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Libro</th>
+                        <th>ID Libro</th>
+                        <th>Tipo</th>
+                        <th>Desde</th>
+                        <th>Hasta</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let r of solicitudes()">
+                        <td>{{ r.user_id?.name || r.usuario_id?.name || 'N/A' }}</td>
+                        <td>{{ r.libro_id?.titulo || r.libro_id }}</td>
+                        <td>
+                            <code class="text-muted" style="font-size: 0.85rem;">{{ obtenerLibroId(r) }}</code>
+                        </td>
+                        <td>
+                            <span class="badge" [class.bg-info]="r.tipo === 'sala'"
+                                [class.bg-primary]="r.tipo === 'domicilio'">
+                                {{ r.tipo | titlecase }}
+                            </span>
+                        </td>
+                        <td>{{ r.desde | date:'short' }}</td>
+                        <td>{{ r.hasta | date:'short' }}</td>
+                        <td>{{ r.estado }}</td>
+                        <td>
+                            <button class="btn btn-sm btn-danger" (click)="eliminarPrestamo(r._id, 'activo')"
+                                title="Eliminar préstamo">
+                                 Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="solicitudes().length === 0">
+                        <td colspan="8" class="text-center">No hay préstamos activos.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- TAB VENCIDOS -->
+    <div *ngIf="activeTab === 'vencidos' && !isLoading()">
+        <div class="alert alert-warning">
+            Aquí se muestran los préstamos que han superado su fecha de devolución.
+        </div>
+        <div class="table-responsive">
+            <table class="table table-danger table-striped">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Libro</th>
+                        <th>Vencimiento</th>
+                        <th>Días Atraso</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let r of vencidos()">
+                        <td>{{ r.user_id?.name }}</td>
+                        <td>{{ r.libro_id?.titulo }}</td>
+                        <td>{{ r.hasta | date:'short' }}</td>
+                        <td>
+                            <span class="badge bg-danger">
+                                {{ r.diasAtraso }} días
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-dark me-1" (click)="enviarRecordatorio(r._id)"
+                                title="Enviar recordatorio">
+                                 Recordatorio
+                            </button>
+                            <button class="btn btn-sm btn-danger" (click)="eliminarPrestamo(r._id, 'vencido')"
+                                title="Eliminar préstamo">
+                                 Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="vencidos().length === 0">
+                        <td colspan="5" class="text-center">No hay préstamos vencidos.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- TAB DEVOLUCION -->
+    <div *ngIf="activeTab === 'devolucion'">
+        <div class="card p-4 shadow-sm" style="max-width: 500px; margin: 0 auto;">
+            <h4 class="mb-3">Procesar Devolución</h4>
+
+            <div class="mb-3">
+                <label class="form-label">ID del Libro (o Escanear Código)</label>
+                <input type="text" class="form-control" [(ngModel)]="libroIdDevolucion"
+                    placeholder="Ingrese ID del libro">
+            </div>
+
+            <button class="btn btn-primary w-100" (click)="procesarDevolucion()" [disabled]="!libroIdDevolucion">
+                Registrar Devolución
+            </button>
+
+            <div class="mt-3 alert alert-success" *ngIf="mensajeDevolucion">
+                {{ mensajeDevolucion }}
+            </div>
+            <div class="mt-3 alert alert-danger" *ngIf="errorDevolucion">
+                {{ errorDevolucion }}
+            </div>
+        </div>
+    </div>
+
+</div>

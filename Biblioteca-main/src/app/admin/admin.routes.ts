@@ -4,6 +4,7 @@ import { DashboardComponent } from './dashboard/dashboard';
 import { AdminListaImagenesComponent } from './admin-lista-imagenes/admin-lista-imagenes';
 import { AdminCrearImagenComponent } from './admin-crear-imagen/admin-crear-imagen';
 import { AdminLibrosComponent } from './admin-libros/admin-libros';
+import { AdminPrestamosComponent } from './admin-prestamos/admin-prestamos';
 import { AdminGuard } from '../guards/admin-guard';
 
 export const adminRoutes: Routes = [
@@ -16,6 +17,7 @@ export const adminRoutes: Routes = [
       { path: 'imagenes', component: AdminListaImagenesComponent },        // /admin/imagenes
       { path: 'imagenes/crear', component: AdminCrearImagenComponent },    // /admin/imagenes/crear
       { path: 'libros', component: AdminLibrosComponent },                 // /admin/libros
+      { path: 'prestamos', component: AdminPrestamosComponent },           // /admin/prestamos
     ],
   },
 ];

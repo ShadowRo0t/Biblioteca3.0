@@ -3,12 +3,12 @@
 
   <!-- Cargando -->
   <div *ngIf="loading" class="loading">
-    ⏳ Cargando reservas...
+     Cargando reservas...
   </div>
 
   <!-- Error -->
   <div *ngIf="error" class="alert alert-danger">
-    ❌ {{ error }}
+     {{ error }}
   </div>
 
   <!-- Lista de reservas -->
@@ -24,13 +24,13 @@
         (click)="eliminarReserva(reserva._id)" 
         class="btn btn-danger"
         [disabled]="loading">
-        🗑️ Eliminar
+         Eliminar
       </button>
     </div>
   </div>
 
   <!-- Sin reservas -->
   <div *ngIf="!loading && reservas.length === 0" class="no-reservas">
-    📚 No tienes reservas aún. ¡Crea una nueva!
+     No tienes reservas aún. ¡Crea una nueva!
   </div>
 </div>

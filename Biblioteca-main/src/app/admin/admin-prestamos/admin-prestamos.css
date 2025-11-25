@@ -1,0 +1,8 @@
+.nav-link {
+  cursor: pointer;
+  color: #495057;
+}
+.nav-link.active {
+  font-weight: bold;
+  color: #0d6efd;
+}

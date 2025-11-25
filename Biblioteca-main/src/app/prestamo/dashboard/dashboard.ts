@@ -30,15 +30,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
       // Cargar reservas inicialmente
       this.cargarReservas();
 
-      // ✅ Escuchar cambios en tiempo real del BehaviorSubject
+      //  Escuchar cambios en tiempo real del BehaviorSubject
       this.reservaService.getReservasObservable()
         .pipe(takeUntil(this.destroy$))
         .subscribe(reservas => {
-          console.log('🔄 Dashboard: Reservas actualizadas:', reservas);
+          console.log(' Dashboard: Reservas actualizadas:', reservas);
           this.reservas = reservas;
         });
     } else {
-      this.router.navigate(['/login']); // 🔒 seguridad extra por si entran sin token
+      this.router.navigate(['/login']); //  seguridad extra por si entran sin token
     }
   }
 
@@ -52,10 +52,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
           : ((data as { reservas?: any[] })?.reservas || []);
         this.reservas = reservasArray;
         this.loading = false;
-        console.log('✅ Dashboard: Reservas cargadas:', reservasArray);
+        console.log(' Dashboard: Reservas cargadas:', reservasArray);
       },
       error: (err) => {
-        console.error('❌ Error cargando reservas:', err);
+        console.error(' Error cargando reservas:', err);
         this.loading = false;
       }
     });
@@ -65,18 +65,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // El backend puede usar _id (MongoDB) o id
     const reservaId = id?._id || id?.id || id;
     if (!reservaId) {
-      console.error('❌ ID de reserva no válido');
+      console.error(' ID de reserva no válido');
       return;
     }
 
     if (confirm('¿Estás seguro de que deseas cancelar esta reserva?')) {
       this.reservaService.eliminarReserva(reservaId.toString()).subscribe({
         next: () => {
-          console.log('✅ Reserva cancelada');
+          console.log(' Reserva cancelada');
           // La lista se actualizará automáticamente gracias al BehaviorSubject
         },
         error: (err) => {
-          console.error('❌ Error cancelando reserva:', err);
+          console.error(' Error cancelando reserva:', err);
           alert('Error al cancelar la reserva');
         }
       });

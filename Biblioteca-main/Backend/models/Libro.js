@@ -24,6 +24,21 @@ const libroSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  tipo: {
+    type: String,
+    enum: ['libro', 'audio', 'video', 'otro'],
+    default: 'libro',
+    required: true
+  },
+  editorial: {
+    type: String,
+    trim: true
+  },
+  ubicacion: {
+    type: String,
+    trim: true,
+    default: 'General'
+  },
   imagen: {
     type: String,
     default: 'https://via.placeholder.com/150'
@@ -57,12 +72,12 @@ function syncDisponibilidad(libro) {
   libro.disponibilidad = (libro.copias_disponibles ?? 0) > 0 ? 'Disponible' : 'Agotado';
 }
 
-libroSchema.pre('save', function(next) {
+libroSchema.pre('save', function (next) {
   syncDisponibilidad(this);
   next();
 });
 
-libroSchema.methods.actualizarDisponibilidad = function() {
+libroSchema.methods.actualizarDisponibilidad = function () {
   syncDisponibilidad(this);
 };
 

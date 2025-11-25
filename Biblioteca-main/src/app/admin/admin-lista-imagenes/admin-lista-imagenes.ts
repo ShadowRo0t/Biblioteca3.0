@@ -23,10 +23,10 @@ export class AdminListaImagenesComponent implements OnInit {
     this.imagenes$ = this.imagenSrv.getImagenes();
   }
 
-  // ✅ trackBy que usa tu *ngFor
+  //  trackBy que usa tu *ngFor
   trackId = (_index: number, it: Imagen) => it.id;
 
-  // ✅ handler para (error) en <img>
+  //  handler para (error) en <img>
   imgError(e: Event) {
     const el = e.target as HTMLImageElement;
     // Fallback inline (no depende de assets)

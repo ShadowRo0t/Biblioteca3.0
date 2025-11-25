@@ -23,6 +23,8 @@ Antes de comenzar asegúrate de tener instalado:
 10) Tener MongoDB Compass instalado, para ver la base de datos
 11) Tener Flutter y android studio correctamente isntalado
 
+
+### LARAVEL YA NO ES NECESARIO
 # Pasos para correr Laravel
 ###  Instalación
 1) cd code/primerproyectolaravel 

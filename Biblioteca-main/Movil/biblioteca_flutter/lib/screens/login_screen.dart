@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (success) {
       // Login exitoso, verificar que el token se guardó
       final token = await _authService.getToken();
-      print('🔑 Token guardado: ${token != null ? "Sí" : "No"}');
+      print(' Token guardado: ${token != null ? "Sí" : "No"}');
       
       if (token == null) {
         // Si el token no se guardó, mostrar error
@@ -61,11 +61,11 @@ class _LoginScreenState extends State<LoginScreen> {
       
       // Verificar nuevamente que el token esté guardado
       final tokenVerify = await _authService.getToken();
-      print('🔑 Token verificado después del delay: ${tokenVerify != null ? "Sí" : "No"}');
+      print(' Token verificado después del delay: ${tokenVerify != null ? "Sí" : "No"}');
       
       // Login exitoso, navegar a home usando pushReplacement para evitar problemas con redirect
       if (mounted) {
-        print('➡️ Navegando a /home');
+        print(' Navegando a /home');
         // Usar go con un pequeño delay adicional para asegurar que el redirect no interfiera
         await Future.delayed(const Duration(milliseconds: 50));
         if (mounted) {

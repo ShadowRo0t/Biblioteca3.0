@@ -17,7 +17,8 @@
           <label>
             Título
             <input type="text" formControlName="titulo" placeholder="Ej. Cien años de soledad">
-            <span class="error" *ngIf="crearLibroForm.controls.titulo.invalid && crearLibroForm.controls.titulo.touched">
+            <span class="error"
+              *ngIf="crearLibroForm.controls.titulo.invalid && crearLibroForm.controls.titulo.touched">
               El título es obligatorio.
             </span>
           </label>
@@ -33,7 +34,8 @@
           <label>
             Género
             <input type="text" formControlName="genero" placeholder="Ej. Novela">
-            <span class="error" *ngIf="crearLibroForm.controls.genero.invalid && crearLibroForm.controls.genero.touched">
+            <span class="error"
+              *ngIf="crearLibroForm.controls.genero.invalid && crearLibroForm.controls.genero.touched">
               El género es obligatorio.
             </span>
           </label>
@@ -41,15 +43,37 @@
           <label>
             Año de edición
             <input type="text" formControlName="anio_edicion" placeholder="Ej. 1967">
-            <span class="error" *ngIf="crearLibroForm.controls.anio_edicion.invalid && crearLibroForm.controls.anio_edicion.touched">
+            <span class="error"
+              *ngIf="crearLibroForm.controls.anio_edicion.invalid && crearLibroForm.controls.anio_edicion.touched">
               El año de edición es obligatorio.
             </span>
+          </label>
+
+          <label>
+            Tipo
+            <select formControlName="tipo">
+              <option value="libro">Libro</option>
+              <option value="audio">Audio</option>
+              <option value="video">Video</option>
+              <option value="otro">Otro</option>
+            </select>
+          </label>
+
+          <label>
+            Editorial
+            <input type="text" formControlName="editorial" placeholder="Ej. Sudamericana">
+          </label>
+
+          <label>
+            Ubicación
+            <input type="text" formControlName="ubicacion" placeholder="Ej. Estante A1">
           </label>
 
           <label class="full-row">
             Descripción
             <textarea formControlName="descripcion" rows="3" placeholder="Breve reseña del libro"></textarea>
-            <span class="error" *ngIf="crearLibroForm.controls.descripcion.invalid && crearLibroForm.controls.descripcion.touched">
+            <span class="error"
+              *ngIf="crearLibroForm.controls.descripcion.invalid && crearLibroForm.controls.descripcion.touched">
               La descripción es obligatoria.
             </span>
           </label>
@@ -109,7 +133,8 @@
           <tr>
             <th>Título</th>
             <th>Autor</th>
-            <th>Género</th>
+            <th>Tipo</th>
+            <th>Ubicación</th>
             <th>Disponibles</th>
             <th>Totales</th>
             <th>Estado</th>
@@ -120,11 +145,13 @@
           <tr *ngFor="let libro of libros()">
             <td>{{ libro.titulo }}</td>
             <td>{{ libro.autor }}</td>
-            <td>{{ libro.genero }}</td>
+            <td>{{ libro.tipo }}</td>
+            <td>{{ libro.ubicacion }}</td>
             <td>{{ libro.copias_disponibles }}</td>
             <td>{{ libro.copias_totales }}</td>
             <td>
-              <span class="badge" [class.disponible]="libro.disponibilidad === 'Disponible'" [class.agotado]="libro.disponibilidad === 'Agotado'">
+              <span class="badge" [class.disponible]="libro.disponibilidad === 'Disponible'"
+                [class.agotado]="libro.disponibilidad === 'Agotado'">
                 {{ libro.disponibilidad }}
               </span>
             </td>
@@ -135,11 +162,10 @@
             </td>
           </tr>
           <tr *ngIf="!isFetching() && libros().length === 0">
-            <td colspan="7" class="empty">No hay libros registrados todavía.</td>
+            <td colspan="8" class="empty">No hay libros registrados todavía.</td>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
 </div>
-

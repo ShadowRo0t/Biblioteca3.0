@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/reserva_service.dart';
 import '../models/reserva.dart';
 import 'package:intl/intl.dart';
+import '../widgets/custom_drawer.dart';
 
 class ReservasScreen extends StatefulWidget {
   const ReservasScreen({super.key});
@@ -60,7 +61,7 @@ class _ReservasScreenState extends State<ReservasScreen> {
     if (errorMessage == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('✅ Reserva cancelada exitosamente'),
+          content: Text(' Reserva cancelada exitosamente'),
           backgroundColor: Colors.green,
         ),
       );
@@ -86,8 +87,15 @@ class _ReservasScreenState extends State<ReservasScreen> {
             icon: const Icon(Icons.refresh),
             onPressed: _loadReservas,
           ),
+          Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () => Scaffold.of(context).openEndDrawer(),
+            ),
+          ),
         ],
       ),
+      endDrawer: const CustomDrawer(),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _reservas.isEmpty

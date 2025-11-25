@@ -8,7 +8,7 @@ const path = require('path');
 dotenv.config({ path: path.join(__dirname, '.env') });
 
 // Verificar que las variables se cargaron
-console.log('🔍 Verificando variables de entorno...');
+console.log(' Verificando variables de entorno...');
 console.log('PORT:', process.env.PORT || '8000 (por defecto)');
 console.log('MONGODB_URI:', process.env.MONGODB_URI ? ' Configurado' : ' NO configurado');
 console.log('JWT_SECRET:', process.env.JWT_SECRET ? ' Configurado' : ' NO configurado');
@@ -41,7 +41,7 @@ app.use(cors({
       callback(null, true);
     } else {
       // En desarrollo, también permitir otros orígenes (cambiar en producción)
-      console.log(`✅ Permitiendo origen: ${origin}`);
+      console.log(` Permitiendo origen: ${origin}`);
       callback(null, true);
     }
   },
@@ -57,7 +57,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static('uploads'));
 
 // Conexión a MongoDB
-console.log('\n🔌 Intentando conectar a MongoDB...');
+console.log('\n Intentando conectar a MongoDB...');
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -68,7 +68,7 @@ mongoose.connect(MONGODB_URI, {
 })
 .catch(err => {
   console.error(' Error conectando a MongoDB:', err.message);
-  console.error('\n💡 Soluciones posibles:');
+  console.error('\n Soluciones posibles:');
   console.error('   1. Verifica que MongoDB esté corriendo: net start MongoDB');
   console.error('   2. Verifica tu archivo .env');
   console.error('   3. Verifica la URL de MongoDB');
@@ -151,7 +151,7 @@ app.listen(PORT, () => {
   console.log(` URL del servidor:     http://localhost:${PORT}`);
   console.log(` Frontend Angular:     http://localhost:4200`);
   console.log(`  MongoDB:              ${MONGODB_URI}`);
-  console.log(` JWT Secret:           ${process.env.JWT_SECRET ? 'Configurado ✅' : 'NO configurado ❌'}`);
+  console.log(` JWT Secret:           ${process.env.JWT_SECRET ? 'Configurado ' : 'NO configurado '}`);
   console.log(` Entorno:              ${process.env.NODE_ENV || 'development'}`);
   console.log('='.repeat(60));
   console.log('\n Endpoints disponibles:');

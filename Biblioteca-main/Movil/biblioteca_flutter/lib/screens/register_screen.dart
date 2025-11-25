@@ -46,7 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (errorMessage == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('✅ Cuenta creada exitosamente. Ahora inicia sesión'),
+          content: Text(' Cuenta creada exitosamente. Ahora inicia sesión'),
           backgroundColor: Colors.green,
         ),
       );

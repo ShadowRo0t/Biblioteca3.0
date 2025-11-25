@@ -21,6 +21,7 @@ export class Catalogo implements OnInit {
   libroSeleccionado: Libro | null = null;
   fechaDesde = '';
   fechaHasta = '';
+  tipoPrestamo: 'sala' | 'domicilio' = 'domicilio';
 
   libros: Libro[] = [];
   isLoading = signal(false);
@@ -31,7 +32,7 @@ export class Catalogo implements OnInit {
     private router: Router,
     private reservaService: ReservaService,
     private libroService: LibroService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.fetchLibros();
@@ -58,7 +59,7 @@ export class Catalogo implements OnInit {
     return new Date().toISOString().split('T')[0];
   }
 
-  // 🔍 Filtro de búsqueda
+  //  Filtro de búsqueda
   librosFiltrados() {
     if (!this.searchTerm) return this.libros;
     const term = this.searchTerm.toLowerCase();
@@ -71,7 +72,7 @@ export class Catalogo implements OnInit {
 
   // ----- MODAL: abrir / cerrar / confirmar -----
   openCalendario(libro: Libro) {
-    // 🔒 Validación de sesión
+    //  Validación de sesión
     if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/login']); // si no está logueado → login
       return;
@@ -86,6 +87,7 @@ export class Catalogo implements OnInit {
     this.libroSeleccionado = libro;
     this.fechaDesde = '';
     this.fechaHasta = '';
+    this.tipoPrestamo = 'domicilio';
     this.showCalendario = true;
   }
 
@@ -111,14 +113,14 @@ export class Catalogo implements OnInit {
 
     const nuevaReserva = {
       libro_id: this.libroSeleccionado._id,
-      tipo: 'prestamo',
+      tipo: this.tipoPrestamo,
       desde: this.fechaDesde,
       hasta: this.fechaHasta
     };
 
     this.reservaService.crearReserva(nuevaReserva).subscribe({
       next: () => {
-        alert(`✅ Préstamo registrado para "${this.libroSeleccionado?.titulo}" 
+        alert(` Préstamo registrado para "${this.libroSeleccionado?.titulo}" 
 Desde: ${this.fechaDesde} 
 Hasta: ${this.fechaHasta}`);
 
@@ -129,7 +131,7 @@ Hasta: ${this.fechaHasta}`);
       error: (err) => {
         console.error('Error al crear la reserva', err);
         const message = err?.message || err?.error?.message || 'Ocurrió un error al registrar la reserva.';
-        alert(`❌ ${message}`);
+        alert(` ${message}`);
         if (err?.error?.message === 'Token no proporcionado' || err?.status === 401) {
           this.authService.logout();
           this.router.navigate(['/login']);

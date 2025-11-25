@@ -4,6 +4,61 @@
     <span>Biblioteca BEC</span>
   </div>
 
+  <!-- Icono de Notificaciones -->
+  <div class="notifications-container" *ngIf="authService.isLoggedIn()">
+    <button class="notification-bell" type="button" (click)="toggleNotificaciones()" aria-label="Notificaciones"
+      [class.has-notifications]="contadorNotificaciones() > 0">
+      <i class="fas fa-bell"></i>
+      <span class="notification-badge" *ngIf="contadorNotificaciones() > 0">
+        {{ contadorNotificaciones() }}
+      </span>
+    </button>
+
+    <!-- Dropdown de Notificaciones -->
+    <div class="notifications-dropdown" [class.open]="notificacionesOpen()">
+      <div class="notifications-header">
+        <h3>Notificaciones</h3>
+        <button type="button" class="close-btn" (click)="toggleNotificaciones()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="notifications-content">
+        <div *ngIf="notificaciones().length === 0" class="no-notifications">
+          <i class="fas fa-check-circle"></i>
+          <p>No tienes notificaciones pendientes</p>
+        </div>
+
+        <div *ngFor="let notif of notificaciones()" class="notification-item"
+          [class.devolucion]="notif.tipo === 'devolucion'">
+          <div class="notification-icon">
+            <i class="fas" [class.fa-exclamation-circle]="notif.tipo === 'vencida'"
+              [class.fa-check-circle]="notif.tipo === 'devolucion'"></i>
+          </div>
+          <div class="notification-body">
+            <p class="notification-message">{{ notif.mensaje }}</p>
+            <div class="notification-meta" *ngIf="notif.tipo === 'vencida'">
+              <span class="delay-badge">
+                <i class="fas fa-clock"></i> {{ notif.diasRetraso }} día(s) de retraso
+              </span>
+              <span class="fine-badge">
+                <i class="fas fa-dollar-sign"></i> Multa: ${{ notif.multaEconomica }}
+              </span>
+            </div>
+            <div class="notification-meta" *ngIf="notif.tipo === 'devolucion'">
+              <span class="success-badge">
+                <i class="fas fa-check"></i> Pagado: ${{ notif.multaEconomica }}
+              </span>
+            </div>
+          </div>
+          <button class="close-notification-btn" (click)="cerrarNotificacion(notif.id, $event)" title="Cerrar">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <button class="menu-button" type="button" (click)="toggleMenu()" aria-label="Alternar menú">
     <span></span>
     <span></span>

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import '../models/libro.dart';
 import '../services/reserva_service.dart';
 import '../services/libro_service.dart';
-import 'package:intl/intl.dart';
+
+import '../widgets/custom_drawer.dart';
 
 class CatalogoScreen extends StatefulWidget {
   const CatalogoScreen({super.key});
@@ -35,9 +35,11 @@ class _CatalogoScreenState extends State<CatalogoScreen> {
   }
 
   Future<void> _fetchLibros() async {
-    setState(() {
-      _isLoading = true;
-    });
+    if (!_isRefreshing) {
+      setState(() {
+        _isLoading = true;
+      });
+    }
 
     final libros = await _libroService.obtenerLibros();
 
@@ -95,7 +97,7 @@ class _CatalogoScreenState extends State<CatalogoScreen> {
     if (errorMessage == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('✅ Reserva creada para "${libro.titulo}" (7 días)'),
+          content: Text(' Reserva creada para "${libro.titulo}" (7 días)'),
           backgroundColor: Colors.green,
         ),
       );
@@ -115,7 +117,16 @@ class _CatalogoScreenState extends State<CatalogoScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Catálogo de Libros'),
+        actions: [
+          Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () => Scaffold.of(context).openEndDrawer(),
+            ),
+          ),
+        ],
       ),
+      endDrawer: const CustomDrawer(),
       body: RefreshIndicator(
         onRefresh: () async {
           setState(() => _isRefreshing = true);
@@ -296,4 +307,3 @@ class _LibroCard extends StatelessWidget {
     );
   }
 }
-

@@ -3,12 +3,12 @@
 
   <!-- Cargando -->
   <div *ngIf="loading" class="alert alert-info text-center">
-    ⏳ Cargando reservas...
+     Cargando reservas...
   </div>
 
   <!-- Si no hay reservas -->
   <div *ngIf="!loading && reservas.length === 0" class="alert alert-info text-center">
-    📚 No tienes reservas activas. ¡Crea una nueva desde el catálogo!
+     No tienes reservas activas. ¡Crea una nueva desde el catálogo!
   </div>
 
   <!-- Tabla de reservas -->
@@ -26,15 +26,13 @@
     <tbody>
       <tr *ngFor="let reserva of reservas; let i = index">
         <td>{{ i + 1 }}</td>
-        <td>{{ reserva.libro?.titulo || 'Libro no encontrado' }}</td>
+        <td>{{ reserva.libro_id?.titulo || 'Libro no encontrado' }}</td>
         <td>{{ reserva.tipo }}</td>
         <td>{{ reserva.desde | date: 'dd/MM/yyyy' }}</td>
         <td>{{ reserva.hasta | date: 'dd/MM/yyyy' }}</td>
         <td>
-          <button
-            class="btn btn-danger btn-sm"
-            (click)="cancelarReserva(reserva._id || reserva.id)">
-             Cancelar reservacion
+          <button class="btn btn-danger btn-sm" (click)="cancelarReserva(reserva._id || reserva.id)">
+            Cancelar reservacion
           </button>
         </td>
       </tr>

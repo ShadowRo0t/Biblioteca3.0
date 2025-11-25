@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../widgets/custom_drawer.dart';
 
 import '../models/libro.dart';
 import '../services/libro_service.dart';
@@ -96,7 +97,9 @@ class _AdminLibrosScreenState extends State<AdminLibrosScreen> {
       'genero': _generoController.text.trim(),
       'descripcion': _descripcionController.text.trim(),
       'anio_edicion': _anioController.text.trim(),
-      'imagen': _imagenController.text.trim().isEmpty ? null : _imagenController.text.trim(),
+      'imagen': _imagenController.text.trim().isEmpty
+          ? null
+          : _imagenController.text.trim(),
       'copias_totales': int.tryParse(_copiasController.text) ?? 1,
       'copias_disponibles': int.tryParse(_copiasController.text) ?? 1,
     };
@@ -139,7 +142,8 @@ class _AdminLibrosScreenState extends State<AdminLibrosScreen> {
     setState(() => _cargando = true);
 
     final cantidad = int.tryParse(_stockCantidadController.text) ?? 1;
-    final error = await _libroService.agregarStock(_libroSeleccionadoStock!, cantidad);
+    final error =
+        await _libroService.agregarStock(_libroSeleccionadoStock!, cantidad);
 
     if (!mounted) return;
 
@@ -224,8 +228,15 @@ class _AdminLibrosScreenState extends State<AdminLibrosScreen> {
             onPressed: _cargandoLista ? null : _cargarLibros,
             icon: const Icon(Icons.refresh),
           ),
+          Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () => Scaffold.of(context).openEndDrawer(),
+            ),
+          ),
         ],
       ),
+      endDrawer: const CustomDrawer(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -233,7 +244,8 @@ class _AdminLibrosScreenState extends State<AdminLibrosScreen> {
           children: [
             Card(
               elevation: 3,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Form(
@@ -243,51 +255,64 @@ class _AdminLibrosScreenState extends State<AdminLibrosScreen> {
                     children: [
                       const Text(
                         'Registrar nuevo libro',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 16),
                       TextFormField(
                         controller: _tituloController,
                         decoration: const InputDecoration(labelText: 'Título'),
                         validator: (value) =>
-                            value == null || value.trim().isEmpty ? 'El título es obligatorio' : null,
+                            value == null || value.trim().isEmpty
+                                ? 'El título es obligatorio'
+                                : null,
                       ),
                       const SizedBox(height: 12),
                       TextFormField(
                         controller: _autorController,
                         decoration: const InputDecoration(labelText: 'Autor'),
                         validator: (value) =>
-                            value == null || value.trim().isEmpty ? 'El autor es obligatorio' : null,
+                            value == null || value.trim().isEmpty
+                                ? 'El autor es obligatorio'
+                                : null,
                       ),
                       const SizedBox(height: 12),
                       TextFormField(
                         controller: _generoController,
                         decoration: const InputDecoration(labelText: 'Género'),
                         validator: (value) =>
-                            value == null || value.trim().isEmpty ? 'El género es obligatorio' : null,
+                            value == null || value.trim().isEmpty
+                                ? 'El género es obligatorio'
+                                : null,
                       ),
                       const SizedBox(height: 12),
                       TextFormField(
                         controller: _anioController,
-                        decoration: const InputDecoration(labelText: 'Año de edición'),
+                        decoration:
+                            const InputDecoration(labelText: 'Año de edición'),
                         validator: (value) =>
-                            value == null || value.trim().isEmpty ? 'El año es obligatorio' : null,
+                            value == null || value.trim().isEmpty
+                                ? 'El año es obligatorio'
+                                : null,
                       ),
                       const SizedBox(height: 12),
                       TextFormField(
                         controller: _descripcionController,
-                        decoration: const InputDecoration(labelText: 'Descripción'),
+                        decoration:
+                            const InputDecoration(labelText: 'Descripción'),
                         maxLines: 3,
                       ),
                       const SizedBox(height: 12),
                       TextFormField(
                         controller: _imagenController,
-                        decoration: const InputDecoration(labelText: 'URL de la imagen (opcional)'),
+                        decoration: const InputDecoration(
+                            labelText: 'URL de la imagen (opcional)'),
                       ),
                       const SizedBox(height: 12),
                       TextFormField(
                         controller: _copiasController,
-                        decoration: const InputDecoration(labelText: 'Copias totales'),
+                        decoration:
+                            const InputDecoration(labelText: 'Copias totales'),
                         keyboardType: TextInputType.number,
                         validator: (value) {
                           final numero = int.tryParse(value ?? '');
@@ -314,7 +339,8 @@ class _AdminLibrosScreenState extends State<AdminLibrosScreen> {
             const SizedBox(height: 24),
             Card(
               elevation: 3,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Form(
@@ -324,12 +350,14 @@ class _AdminLibrosScreenState extends State<AdminLibrosScreen> {
                     children: [
                       const Text(
                         'Añadir existencias',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 16),
                       DropdownButtonFormField<String>(
-                        value: _libroSeleccionadoStock,
-                        decoration: const InputDecoration(labelText: 'Selecciona un libro'),
+                        initialValue: _libroSeleccionadoStock,
+                        decoration: const InputDecoration(
+                            labelText: 'Selecciona un libro'),
                         items: _libros
                             .map(
                               (libro) => DropdownMenuItem(
@@ -338,14 +366,17 @@ class _AdminLibrosScreenState extends State<AdminLibrosScreen> {
                               ),
                             )
                             .toList(),
-                        onChanged: (value) => setState(() => _libroSeleccionadoStock = value),
-                        validator: (value) =>
-                            value == null ? 'Selecciona un libro antes de añadir stock' : null,
+                        onChanged: (value) =>
+                            setState(() => _libroSeleccionadoStock = value),
+                        validator: (value) => value == null
+                            ? 'Selecciona un libro antes de añadir stock'
+                            : null,
                       ),
                       const SizedBox(height: 12),
                       TextFormField(
                         controller: _stockCantidadController,
-                        decoration: const InputDecoration(labelText: 'Cantidad a añadir'),
+                        decoration: const InputDecoration(
+                            labelText: 'Cantidad a añadir'),
                         keyboardType: TextInputType.number,
                         validator: (value) {
                           final numero = int.tryParse(value ?? '');
@@ -376,7 +407,8 @@ class _AdminLibrosScreenState extends State<AdminLibrosScreen> {
             ),
             const SizedBox(height: 12),
             if (_cargandoLista)
-              const Center(child: Padding(
+              const Center(
+                  child: Padding(
                 padding: EdgeInsets.all(24.0),
                 child: CircularProgressIndicator(),
               ))
@@ -398,7 +430,9 @@ class _AdminLibrosScreenState extends State<AdminLibrosScreen> {
                       leading: CircleAvatar(
                         backgroundColor: Colors.green[100],
                         child: Text(
-                          libro.titulo.isNotEmpty ? libro.titulo[0].toUpperCase() : '?',
+                          libro.titulo.isNotEmpty
+                              ? libro.titulo[0].toUpperCase()
+                              : '?',
                           style: const TextStyle(color: Colors.green),
                         ),
                       ),
@@ -409,7 +443,8 @@ class _AdminLibrosScreenState extends State<AdminLibrosScreen> {
                       isThreeLine: true,
                       trailing: IconButton(
                         icon: const Icon(Icons.delete, color: Colors.red),
-                        onPressed: _cargando ? null : () => _eliminarLibro(libro),
+                        onPressed:
+                            _cargando ? null : () => _eliminarLibro(libro),
                       ),
                     ),
                   );
@@ -421,5 +456,3 @@ class _AdminLibrosScreenState extends State<AdminLibrosScreen> {
     );
   }
 }
-
-

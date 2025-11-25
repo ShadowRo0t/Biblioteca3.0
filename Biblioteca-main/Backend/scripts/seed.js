@@ -89,11 +89,11 @@ const librosIniciales = [
 async function seedDatabase() {
   try {
     await mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/biblioteca_bec');
-    console.log('✅ Conectado a MongoDB');
+    console.log(' Conectado a MongoDB');
 
     await User.deleteMany({});
     await Libro.deleteMany({});
-    console.log('🧹 Colecciones limpiadas');
+    console.log(' Colecciones limpiadas');
 
     const admin = new User({
       name: 'Administrador',
@@ -102,7 +102,7 @@ async function seedDatabase() {
       role: 'admin'
     });
     await admin.save();
-    console.log('👤 Usuario administrador creado: admin@biblioteca.com / admin123');
+    console.log(' Usuario administrador creado: admin@biblioteca.com / admin123');
 
     const user = new User({
       name: 'Usuario Prueba',
@@ -111,15 +111,15 @@ async function seedDatabase() {
       role: 'user'
     });
     await user.save();
-    console.log('👤 Usuario de prueba creado: usuario@test.com / usuario123');
+    console.log(' Usuario de prueba creado: usuario@test.com / usuario123');
 
     await Libro.insertMany(librosIniciales);
-    console.log(`📚 ${librosIniciales.length} libros creados`);
+    console.log(` ${librosIniciales.length} libros creados`);
 
-    console.log('✅ Base de datos poblada exitosamente');
+    console.log(' Base de datos poblada exitosamente');
     process.exit(0);
   } catch (error) {
-    console.error('❌ Error poblando la base de datos:', error);
+    console.error(' Error poblando la base de datos:', error);
     process.exit(1);
   }
 }

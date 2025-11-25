@@ -98,5 +98,57 @@ class ReservaService {
 
     return response['message'] ?? 'Error al eliminar la reserva';
   }
-}
 
+  // Obtener préstamos vencidos (Admin)
+  Future<List<Reserva>> getVencidas() async {
+    final token = await _authService.getToken();
+    if (token == null) return [];
+
+    final response = await ApiService.get('/reservas/vencidas', token: token);
+
+    if (response['success'] == true) {
+      final data = response['data'];
+      if (data is List) {
+        return data.map((json) => Reserva.fromJson(json)).toList();
+      }
+    }
+
+    return [];
+  }
+
+  // Devolver libro (Admin)
+  Future<Map<String, dynamic>?> devolverLibro(String libroId) async {
+    final token = await _authService.getToken();
+    if (token == null) return null;
+
+    final response = await ApiService.post(
+      '/reservas/devolver',
+      {'libro_id': libroId},
+      token: token,
+    );
+
+    if (response['success'] == true) {
+      // Retorna: {libro, multa_dias, multa_economica, usuario, nota}
+      return response['data'];
+    }
+
+    return null;
+  }
+
+  Future<String?> getDevolverLibroError(String libroId) async {
+    final token = await _authService.getToken();
+    if (token == null) return 'No estás autenticado';
+
+    final response = await ApiService.post(
+      '/reservas/devolver',
+      {'libro_id': libroId},
+      token: token,
+    );
+
+    if (response['success'] == true) {
+      return null;
+    }
+
+    return response['message'] ?? 'Error al procesar devolución';
+  }
+}

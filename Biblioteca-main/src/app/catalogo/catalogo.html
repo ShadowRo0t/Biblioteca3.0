@@ -2,19 +2,14 @@
   <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
       <form class="d-flex" (submit)="$event.preventDefault()">
-        <input 
-          class="form-control me-2"
-          type="search"
-          placeholder="Buscar libros..."
-          aria-label="Search"
-          [(ngModel)]="searchTerm"
-          name="search">
+        <input class="form-control me-2" type="search" placeholder="Buscar libros..." aria-label="Search"
+          [(ngModel)]="searchTerm" name="search">
         <button class="btn btn-outline-success" type="button">Buscar</button>
       </form>
     </div>
   </nav>
-  
-  <h2 class="mb-4">📖 Catálogo de Libros</h2>
+
+  <h2 class="mb-4"> Catálogo de Libros</h2>
 
   <div class="alert alert-info" *ngIf="isLoading()">Cargando libros...</div>
   <div class="alert alert-danger" *ngIf="!isLoading() && loadError()">{{ loadError() }}</div>
@@ -28,14 +23,12 @@
       <div class="card shadow-sm h-100">
         <img [src]="libro.imagen" class="card-img-top" alt="Portada de {{libro.titulo}}">
         <div class="card-body d-flex flex-column">
-          
+
           <!-- Título del libro -->
           <h5 class="card-title">{{ libro.titulo }}</h5>
 
           <!-- Estado del libro -->
-          <span 
-            class="estado"
-            [ngClass]="getEstadoClase(libro)">
+          <span class="estado" [ngClass]="getEstadoClase(libro)">
             {{ libro.disponibilidad }}
           </span>
 
@@ -45,16 +38,77 @@
           <h6 class="text-muted">Año de edición: {{ libro.anio_edicion }}</h6>
           <span class="stock" *ngIf="libro.copias_totales !== undefined">
             Disponibles: {{ libro.copias_disponibles }} / {{ libro.copias_totales }}
+            <br>
+            <small class="text-muted" *ngIf="libro.prestados_sala">
+              (Prestados en sala: {{ libro.prestados_sala }})
+            </small>
           </span>
           <p class="card-text">{{ libro.descripcion }}</p>
 
           <!-- Botón para abrir calendario -->
           <div class="mt-auto">
-            <button 
-              class="btn"
-              [ngClass]="isLibroReservable(libro) ? 'btn-success' : 'btn-secondary'"
-              [disabled]="!isLibroReservable(libro)"
-              (click)="openCalendario(libro)">
+            <button class="btn" [ngClass]="isLibroReservable(libro) ? 'btn-success' : 'btn-secondary'"
+              [disabled]="!isLibroReservable(libro)" (click)="openCalendario(libro)">
+              Solicitar préstamo
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container mt-4">
+  <nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+      <form class="d-flex" (submit)="$event.preventDefault()">
+        <input class="form-control me-2" type="search" placeholder="Buscar libros..." aria-label="Search"
+          [(ngModel)]="searchTerm" name="search">
+        <button class="btn btn-outline-success" type="button">Buscar</button>
+      </form>
+    </div>
+  </nav>
+
+  <h2 class="mb-4"> Catálogo de Libros</h2>
+
+  <div class="alert alert-info" *ngIf="isLoading()">Cargando libros...</div>
+  <div class="alert alert-danger" *ngIf="!isLoading() && loadError()">{{ loadError() }}</div>
+  <div class="alert alert-warning" *ngIf="!isLoading() && !loadError() && librosFiltrados().length === 0">
+    No se encontraron libros que coincidan con tu búsqueda.
+  </div>
+
+  <!-- 4 libros por fila en md+ -->
+  <div class="row row-cols-1 row-cols-md-4 g-4" *ngIf="!isLoading() && !loadError()">
+    <div class="col" *ngFor="let libro of librosFiltrados()">
+      <div class="card shadow-sm h-100">
+        <img [src]="libro.imagen" class="card-img-top" alt="Portada de {{libro.titulo}}">
+        <div class="card-body d-flex flex-column">
+
+          <!-- Título del libro -->
+          <h5 class="card-title">{{ libro.titulo }}</h5>
+
+          <!-- Estado del libro -->
+          <span class="estado" [ngClass]="getEstadoClase(libro)">
+            {{ libro.disponibilidad }}
+          </span>
+
+          <!-- Resto de información -->
+          <h6 class="text-muted">Autor: {{ libro.autor }}</h6>
+          <h6 class="text-muted">Género: {{ libro.genero }}</h6>
+          <h6 class="text-muted">Año de edición: {{ libro.anio_edicion }}</h6>
+          <span class="stock" *ngIf="libro.copias_totales !== undefined">
+            Disponibles: {{ libro.copias_disponibles }} / {{ libro.copias_totales }}
+            <br>
+            <small class="text-muted" *ngIf="libro.prestados_sala">
+              (Prestados en sala: {{ libro.prestados_sala }})
+            </small>
+          </span>
+          <p class="card-text">{{ libro.descripcion }}</p>
+
+          <!-- Botón para abrir calendario -->
+          <div class="mt-auto">
+            <button class="btn" [ngClass]="isLibroReservable(libro) ? 'btn-success' : 'btn-secondary'"
+              [disabled]="!isLibroReservable(libro)" (click)="openCalendario(libro)">
               Solicitar préstamo
             </button>
           </div>
@@ -73,7 +127,7 @@
 <div class="modal-custom" *ngIf="showCalendario" role="dialog" aria-modal="true">
   <div class="modal-header d-flex justify-content-between align-items-center">
     <h5 class="m-0">Seleccionar fechas</h5>
-    <button class="btn btn-sm btn-outline-secondary" (click)="cerrarCalendario()">✕</button>
+    <button class="btn btn-sm btn-outline-secondary" (click)="cerrarCalendario()"></button>
   </div>
 
   <div class="modal-body">
@@ -81,24 +135,32 @@
       Libro: <strong>{{ libroSeleccionado.titulo }}</strong>
     </p>
 
+    <div class="mb-3">
+      <label class="form-label">Tipo de Préstamo</label>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="tipoPrestamo" id="domicilio" [(ngModel)]="tipoPrestamo"
+          value="domicilio">
+        <label class="form-check-label" for="domicilio">
+          Domicilio (3 días)
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="tipoPrestamo" id="sala" [(ngModel)]="tipoPrestamo"
+          value="sala">
+        <label class="form-check-label" for="sala">
+          En Sala (2 horas)
+        </label>
+      </div>
+    </div>
+
     <div class="row g-3">
       <div class="col-12 col-md-6">
         <label class="form-label">Desde</label>
-        <input
-          type="date"
-          class="form-control"
-          [(ngModel)]="fechaDesde"
-          name="fechaDesde"
-          [min]="hoy">
+        <input type="date" class="form-control" [(ngModel)]="fechaDesde" name="fechaDesde" [min]="hoy">
       </div>
       <div class="col-12 col-md-6">
         <label class="form-label">Hasta</label>
-        <input
-          type="date"
-          class="form-control"
-          [(ngModel)]="fechaHasta"
-          name="fechaHasta"
-          [min]="fechaDesde || hoy">
+        <input type="date" class="form-control" [(ngModel)]="fechaHasta" name="fechaHasta" [min]="fechaDesde || hoy">
       </div>
     </div>
   </div>

@@ -26,6 +26,33 @@
       </div>
     </div>
 
+    <!-- RUT -->
+    <div class="mb-3">
+      <label class="form-label">RUT</label>
+      <input type="text" class="form-control" formControlName="rut" placeholder="12.345.678-9">
+      <div class="text-danger" *ngIf="form.get('rut')?.touched && form.get('rut')?.hasError('required')">
+        El RUT es obligatorio
+      </div>
+    </div>
+
+    <!-- Dirección -->
+    <div class="mb-3">
+      <label class="form-label">Dirección</label>
+      <input type="text" class="form-control" formControlName="address" placeholder="Calle Falsa 123">
+      <div class="text-danger" *ngIf="form.get('address')?.touched && form.get('address')?.hasError('required')">
+        La dirección es obligatoria
+      </div>
+    </div>
+
+    <!-- Teléfono -->
+    <div class="mb-3">
+      <label class="form-label">Teléfono</label>
+      <input type="text" class="form-control" formControlName="phone" placeholder="+569...">
+      <div class="text-danger" *ngIf="form.get('phone')?.touched && form.get('phone')?.hasError('required')">
+        El teléfono es obligatorio
+      </div>
+    </div>
+
     <!-- Contraseña -->
     <div class="mb-3">
       <label class="form-label">Contraseña</label>

@@ -1,16 +1,16 @@
-# 📱 Biblioteca BEC - Aplicación Flutter
+#  Biblioteca BEC - Aplicación Flutter
 
 Aplicación móvil de la Biblioteca BEC desarrollada con Flutter y Dart.
 
-## 🚀 Características
+##  Características
 
-- ✅ **Autenticación**: Login y registro de usuarios
-- ✅ **Catálogo de libros**: Explorar y buscar libros disponibles
-- ✅ **Reservas**: Crear y gestionar reservas de libros
-- ✅ **Diseño móvil nativo**: Interfaz optimizada para dispositivos móviles
-- ✅ **Conexión con backend**: Integración con la API REST existente
+-  **Autenticación**: Login y registro de usuarios
+-  **Catálogo de libros**: Explorar y buscar libros disponibles
+-  **Reservas**: Crear y gestionar reservas de libros
+-  **Diseño móvil nativo**: Interfaz optimizada para dispositivos móviles
+-  **Conexión con backend**: Integración con la API REST existente
 
-## 📋 Requisitos Previos
+##  Requisitos Previos
 
 1. **Flutter SDK** (versión 3.0 o superior)
    - Descarga desde: https://flutter.dev/docs/get-started/install
@@ -23,7 +23,7 @@ Aplicación móvil de la Biblioteca BEC desarrollada con Flutter y Dart.
    - Android Studio / IntelliJ IDEA
    - VS Code con extensión Flutter
 
-## 🔧 Instalación
+##  Instalación
 
 1. **Navega a la carpeta del proyecto**:
    ```bash
@@ -40,7 +40,7 @@ Aplicación móvil de la Biblioteca BEC desarrollada con Flutter y Dart.
    flutter doctor
    ```
 
-## 🏃 Ejecutar la Aplicación
+##  Ejecutar la Aplicación
 
 ### En un Emulador/Simulador
 
@@ -100,7 +100,7 @@ Si quieres probar en un dispositivo físico conectado a la misma red WiFi:
 
 3. **Asegúrate de que el backend acepte conexiones desde tu red local**
 
-## 📱 Estructura del Proyecto
+##  Estructura del Proyecto
 
 ```
 lib/
@@ -123,21 +123,21 @@ lib/
     └── libros_data.dart
 ```
 
-## 🎨 Características de Diseño
+##  Características de Diseño
 
 - **Material Design 3**: Usa el sistema de diseño más reciente de Material
 - **Responsive**: Se adapta a diferentes tamaños de pantalla
 - **Navegación fluida**: Usa GoRouter para navegación entre pantallas
 - **Almacenamiento local**: Guarda el token y datos del usuario con SharedPreferences
 
-## 🔐 Autenticación
+##  Autenticación
 
 La aplicación usa JWT (JSON Web Tokens) para autenticación:
 - El token se guarda automáticamente al hacer login
 - Se envía en cada petición al backend
 - Se valida automáticamente en las rutas protegidas
 
-## 📚 API Endpoints Utilizados
+##  API Endpoints Utilizados
 
 - `POST /api/auth/login` - Iniciar sesión
 - `POST /api/auth/register` - Registrar usuario
@@ -145,7 +145,7 @@ La aplicación usa JWT (JSON Web Tokens) para autenticación:
 - `POST /api/reservas` - Crear nueva reserva
 - `DELETE /api/reservas/:id` - Eliminar reserva
 
-## 🐛 Solución de Problemas
+##  Solución de Problemas
 
 ### Error: "Unable to find a device"
 - Asegúrate de que un emulador esté corriendo o un dispositivo esté conectado
@@ -165,7 +165,7 @@ La aplicación usa JWT (JSON Web Tokens) para autenticación:
 - Si usas dispositivo físico, cambia `127.0.0.1` por tu IP local
 - Verifica que el firewall no esté bloqueando la conexión
 
-## 📦 Build para Producción
+##  Build para Producción
 
 ### Android (APK)
 ```bash
@@ -183,7 +183,7 @@ flutter build appbundle --release
 flutter build ios --release
 ```
 
-## 🛠️ Comandos Útiles
+##  Comandos Útiles
 
 ```bash
 # Ver dispositivos disponibles
@@ -208,14 +208,14 @@ flutter format .
 flutter test
 ```
 
-## 📝 Notas
+##  Notas
 
 - Los libros están hardcoded en `lib/data/libros_data.dart`
 - El token se guarda automáticamente en SharedPreferences
 - La aplicación valida automáticamente la sesión al iniciar
 - Las reservas se crean con 7 días de duración por defecto
 
-## 🎯 Próximos Pasos
+##  Próximos Pasos
 
 - [ ] Agregar pantalla de detalles del libro
 - [ ] Implementar selección de fechas personalizadas
@@ -224,7 +224,7 @@ flutter test
 - [ ] Agregar modo offline
 - [ ] Implementar búsqueda avanzada
 
-## 📄 Licencia
+##  Licencia
 
 Este proyecto es parte del sistema Biblioteca BEC.
 
